@@ -1,0 +1,60 @@
+name: Build IPA for TrollStore
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 90
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+        
+    - name: Build .app (Skip Signing)
+      run: |
+        cd gamewinwinwinwin
+        
+        xcodebuild \
+          -project Unity-iPhone.xcodeproj \
+          -scheme Unity-iPhone \
+          -configuration Release \
+          -sdk iphoneos \
+          -derivedDataPath ../build/DerivedData \
+          CODE_SIGNING_ALLOWED=NO \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGN_ENTITLEMENTS="" \
+          PROVISIONING_PROFILE_SPECIFIER="" \
+          PROVISIONING_PROFILE="" \
+          DEVELOPMENT_TEAM="" \
+          ONLY_ACTIVE_ARCH=NO \
+          ENABLE_BITCODE=NO \
+          build
+        
+    - name: Package IPA
+      run: |
+        mkdir -p build/Payload
+        cp -R build/DerivedData/Build/Products/Release-iphoneos/*.app build/Payload/
+        
+        # 移除签名相关文件
+        find build/Payload -name "_CodeSignature" -type d -exec rm -rf {} + 2>/dev/null || true
+        find build/Payload -name "embedded.mobileprovision" -delete 2>/dev/null || true
+        
+        cd build
+        zip -qr Unity-iPhone-TrollStore.ipa Payload/
+        
+    - name: Upload IPA
+      uses: actions/upload-artifact@v4
+      with:
+        name: Unity-iPhone-TrollStore-IPA
+        path: build/*.ipa
+        retention-days: 90

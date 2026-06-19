@@ -22,6 +22,37 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      - name: 修复 UnityFramework 自链接问题
+        run: |
+          cd gamewinwinwinwin
+          
+          # 从 UnityFramework target 的 Frameworks build phase 中移除 UnityFramework 自己的引用
+          # 找到 UnityFramework 的 target ID，然后从它的 Frameworks phase 里去掉
+          
+          # 先备份
+          cp Unity-iPhone.xcodeproj/project.pbxproj Unity-iPhone.xcodeproj/project.pbxproj.bak
+          
+          # 方法：用 sed 去掉所有 Frameworks build phase 中的 UnityFramework 引用
+          # 查找包含 "UnityFramework" 且在 frameworks 段的行，删掉对应的 fileRef
+          
+          # 先找到 UnityFramework.framework 的 fileRef ID
+          UF_ID=$(grep -o '[A-F0-9]\{24\}.*UnityFramework\.framework' Unity-iPhone.xcodeproj/project.pbxproj | head -1 | grep -o '^[A-F0-9]\{24\}')
+          echo "UnityFramework fileRef ID: $UF_ID"
+          
+          if [ -n "$UF_ID" ]; then
+            # 从 PBXFrameworksBuildPhase 中移除这个 ID 的引用
+            # 格式通常是: XXXXXXXX /* UnityFramework.framework in Frameworks */,
+            sed -i '' "/$UF_ID.*UnityFramework\.framework in Frameworks/d" Unity-iPhone.xcodeproj/project.pbxproj
+            echo "已从 Frameworks build phase 中移除 UnityFramework 自引用"
+          else
+            echo "没找到 UnityFramework 的 fileRef，可能已经是对的"
+          fi
+          
+          # 验证一下
+          echo ""
+          echo "=== 验证：Frameworks phase 中还有没有 UnityFramework ==="
+          grep -c "UnityFramework.framework in Frameworks" Unity-iPhone.xcodeproj/project.pbxproj || echo "0 个（正确）"
+
       - name: Step 1 - Build GameAssembly
         run: |
           cd gamewinwinwinwin
@@ -37,20 +68,11 @@ jobs:
             ENABLE_BITCODE=NO \
             build
 
-      - name: Step 2 - Build UnityFramework (允许TAPI失败)
+      - name: Step 2 - Build UnityFramework
         run: |
           cd gamewinwinwinwin
           LIB_PATH="$(pwd)/Libraries"
-          BUILD_DIR="$(pwd)/build"
           
-          # 后台循环删除 EagerLinkingTBDs 里的自己，防止自链接
-          (while true; do
-            rm -rf "$BUILD_DIR/EagerLinkingTBDs/Release-iphoneos/UnityFramework.framework"
-            sleep 0.2
-          done) &
-          KILLER_PID=$!
-          
-          # 构建，即使失败也继续（可能只是TAPI生成失败，framework其实已经好了）
           xcodebuild \
             -project Unity-iPhone.xcodeproj \
             -target UnityFramework \
@@ -69,19 +91,7 @@ jobs:
               -lz \
               -lsqlite3 \
               -liconv" \
-            build || true
-          
-          # 停止后台删除
-          kill $KILLER_PID 2>/dev/null || true
-          
-          # 检查 framework 是否真的生成了
-          if [ -f "$BUILD_DIR/Release-iphoneos/UnityFramework.framework/UnityFramework" ]; then
-            echo "✅ UnityFramework 构建成功"
-            ls -lh "$BUILD_DIR/Release-iphoneos/UnityFramework.framework/"
-          else
-            echo "❌ UnityFramework 构建失败"
-            exit 1
-          fi
+            build
 
       - name: Step 3 - Build main app
         run: |

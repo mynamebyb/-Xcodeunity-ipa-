@@ -1,26 +1,19 @@
-# 二进制库文件
 *.framework filter=lfs diff=lfs merge=lfs -text
 *.a filter=lfs diff=lfs merge=lfs -text
 *.dylib filter=lfs diff=lfs merge=lfs -text
 *.so filter=lfs diff=lfs merge=lfs -text
 *.dll filter=lfs diff=lfs merge=lfs -text
-
-# 图片资源
 *.png filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.jpeg filter=lfs diff=lfs merge=lfs -text
 *.gif filter=lfs diff=lfs merge=lfs -text
 *.tiff filter=lfs diff=lfs merge=lfs -text
 *.ico filter=lfs diff=lfs merge=lfs -text
-
-# 音频视频
 *.mp3 filter=lfs diff=lfs merge=lfs -text
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.wav filter=lfs diff=lfs merge=lfs -text
 *.ogg filter=lfs diff=lfs merge=lfs -text
 *.m4a filter=lfs diff=lfs merge=lfs -text
-
-# Unity 资源
 *.bundle filter=lfs diff=lfs merge=lfs -text
 *.unity3d filter=lfs diff=lfs merge=lfs -text
 *.assets filter=lfs diff=lfs merge=lfs -text
@@ -29,17 +22,11 @@
 *.level filter=lfs diff=lfs merge=lfs -text
 *.cab filter=lfs diff=lfs merge=lfs -text
 *.unitypackage filter=lfs diff=lfs merge=lfs -text
-
-# 字体
 *.ttf filter=lfs diff=lfs merge=lfs -text
 *.otf filter=lfs diff=lfs merge=lfs -text
-
-# 压缩包
 *.zip filter=lfs diff=lfs merge=lfs -text
 *.tar filter=lfs diff=lfs merge=lfs -text
 *.gz filter=lfs diff=lfs merge=lfs -text
-
-# 排除文本和配置文件（必须是普通文件）
 *.pbxproj !filter !diff !merge text
 *.plist !filter !diff !merge text
 *.sh !filter !diff !merge text

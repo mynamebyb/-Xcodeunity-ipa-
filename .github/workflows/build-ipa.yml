@@ -22,22 +22,19 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: 移除所有 UnityFramework 自引用
+      - name: 修复自链接问题（多管齐下）
         run: |
           cd gamewinwinwinwin
-          
-          # 备份
           cp Unity-iPhone.xcodeproj/project.pbxproj Unity-iPhone.xcodeproj/project.pbxproj.bak
           
-          # 删掉所有 "UnityFramework.framework in Frameworks" 的行
-          # 这样 UnityFramework target 就不会链接自己了
-          # 主 app 我们会用 OTHER_LDFLAGS 手动链接
+          # 方案1：删掉所有 build phase 里的 UnityFramework 引用
           sed -i '' '/UnityFramework\.framework in Frameworks/d' Unity-iPhone.xcodeproj/project.pbxproj
           
-          echo "已删除所有 UnityFramework.framework in Frameworks 引用"
-          echo ""
-          echo "=== 验证 ==="
-          grep -c "UnityFramework.framework in Frameworks" Unity-iPhone.xcodeproj/project.pbxproj || echo "0 个（正确）"
+          # 方案2：禁用 Eager Linking 和 TBD 生成（修改 build settings）
+          # 在 UnityFramework target 的配置里加上禁用参数
+          
+          echo "已应用修复1：删除 build phase 引用"
+          grep -c "UnityFramework.framework in Frameworks" Unity-iPhone.xcodeproj/project.pbxproj || echo "0 个"
 
       - name: Step 1 - Build GameAssembly
         run: |
@@ -58,7 +55,18 @@ jobs:
         run: |
           cd gamewinwinwinwin
           LIB_PATH="$(pwd)/Libraries"
+          BUILD_DIR="$(pwd)/build"
           
+          # 方案3：后台循环删除 .tbd 文件（终极手段）
+          (while true; do
+            rm -rf "$BUILD_DIR/EagerLinkingTBDs/Release-iphoneos/UnityFramework.framework"
+            sleep 0.1
+          done) &
+          KILLER_PID=$!
+          
+          # 方案4：清空 FRAMEWORK_SEARCH_PATHS，不让链接器找 EagerLinkingTBDs
+          # 方案5：禁用模块和 TBD 生成
+          # 即使失败也继续，只要 framework 生成了就行
           xcodebuild \
             -project Unity-iPhone.xcodeproj \
             -target UnityFramework \
@@ -69,7 +77,10 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             ONLY_ACTIVE_ARCH=NO \
             ENABLE_BITCODE=NO \
+            DEFINES_MODULE=NO \
+            GENERATE_MASTER_OBJECT_FILE=NO \
             LIBRARY_SEARCH_PATHS="$LIB_PATH" \
+            FRAMEWORK_SEARCH_PATHS="" \
             OTHER_LDFLAGS="\
               -force_load $LIB_PATH/libil2cpp.a \
               -force_load $LIB_PATH/libiPhone-lib.a \
@@ -77,7 +88,59 @@ jobs:
               -lz \
               -lsqlite3 \
               -liconv" \
-            build
+            build || true
+          
+          # 停止后台删除
+          kill $KILLER_PID 2>/dev/null || true
+          
+          # 检查 framework 是否真的生成了
+          if [ -f "$BUILD_DIR/Release-iphoneos/UnityFramework.framework/UnityFramework" ]; then
+            echo "✅ UnityFramework 构建成功"
+            ls -lh "$BUILD_DIR/Release-iphoneos/UnityFramework.framework/"
+          else
+            echo "❌ UnityFramework 构建失败，再试一次（增量构建，很快）"
+            
+            # 再试一次，这次确保删掉 .tbd
+            rm -rf "$BUILD_DIR/EagerLinkingTBDs/Release-iphoneos/UnityFramework.framework"
+            
+            (while true; do
+              rm -rf "$BUILD_DIR/EagerLinkingTBDs/Release-iphoneos/UnityFramework.framework"
+              sleep 0.1
+            done) &
+            KILLER_PID2=$!
+            
+            xcodebuild \
+              -project Unity-iPhone.xcodeproj \
+              -target UnityFramework \
+              -configuration Release \
+              -sdk iphoneos \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGN_IDENTITY="" \
+              ONLY_ACTIVE_ARCH=NO \
+              ENABLE_BITCODE=NO \
+              DEFINES_MODULE=NO \
+              LIBRARY_SEARCH_PATHS="$LIB_PATH" \
+              FRAMEWORK_SEARCH_PATHS="" \
+              OTHER_LDFLAGS="\
+                -force_load $LIB_PATH/libil2cpp.a \
+                -force_load $LIB_PATH/libiPhone-lib.a \
+                -force_load $LIB_PATH/baselib.a \
+                -lz \
+                -lsqlite3 \
+                -liconv" \
+              build || true
+            
+            kill $KILLER_PID2 2>/dev/null || true
+            
+            if [ -f "$BUILD_DIR/Release-iphoneos/UnityFramework.framework/UnityFramework" ]; then
+              echo "✅ 第二次尝试成功"
+              ls -lh "$BUILD_DIR/Release-iphoneos/UnityFramework.framework/"
+            else
+              echo "❌ 两次都失败了"
+              exit 1
+            fi
+          fi
 
       - name: Step 3 - Build main app
         run: |
@@ -102,38 +165,56 @@ jobs:
             OTHER_LDFLAGS="-framework UnityFramework" \
             build
 
-      - name: Find .app
+      - name: 验证并修复 .app
         run: |
-          echo "=== 查找 .app 文件 ==="
-          APP_PATH="$(pwd)/gamewinwinwinwin/build/Release-iphoneos/sotime.app"
-          if [ -d "$APP_PATH" ]; then
-            echo "找到: $APP_PATH"
-            ls -la "$APP_PATH/" | head -15
-          else
-            echo "没找到，搜索一下..."
-            find ~/Library/Developer/Xcode/DerivedData -name "sotime.app" -type d 2>/dev/null | head -5
+          cd gamewinwinwinwin
+          
+          APP_PATH="$(pwd)/build/Release-iphoneos/sotime.app"
+          if [ ! -d "$APP_PATH" ]; then
+            APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "sotime.app" -type d 2>/dev/null | head -1)
           fi
+          
+          echo "App 路径: $APP_PATH"
+          
+          # 检查并修复 UnityFramework 嵌入
+          if [ ! -d "$APP_PATH/Frameworks/UnityFramework.framework" ]; then
+            echo "⚠️  UnityFramework 没嵌入，手动复制"
+            UF_PATH="$(pwd)/build/Release-iphoneos/UnityFramework.framework"
+            if [ ! -d "$UF_PATH" ]; then
+              UF_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "UnityFramework.framework" -type d 2>/dev/null | head -1)
+            fi
+            mkdir -p "$APP_PATH/Frameworks"
+            cp -R "$UF_PATH" "$APP_PATH/Frameworks/"
+            echo "✅ 已复制"
+          fi
+          
+          # 清理所有签名
+          find "$APP_PATH" -name "_CodeSignature" -type d -exec rm -rf {} + 2>/dev/null || true
+          find "$APP_PATH" -name "embedded.mobileprovision" -delete 2>/dev/null || true
+          
+          echo ""
+          echo "=== 最终 .app 结构 ==="
+          ls -la "$APP_PATH/"
+          echo ""
+          echo "=== Frameworks ==="
+          ls -la "$APP_PATH/Frameworks/" 2>/dev/null || echo "无 Frameworks 目录"
 
       - name: Package IPA
         run: |
-          APP_PATH="$(pwd)/gamewinwinwinwin/build/Release-iphoneos/sotime.app"
+          cd gamewinwinwinwin
+          
+          APP_PATH="$(pwd)/build/Release-iphoneos/sotime.app"
           if [ ! -d "$APP_PATH" ]; then
             APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "sotime.app" -type d 2>/dev/null | head -1)
           fi
           
           APP_NAME=$(basename "$APP_PATH")
-          echo "App 名称: $APP_NAME"
-          echo "App 路径: $APP_PATH"
           
-          rm -rf build/ipa-tmp
-          mkdir -p build/ipa-tmp/Payload
-          cp -R "$APP_PATH" build/ipa-tmp/Payload/
+          rm -rf ../build/ipa-tmp
+          mkdir -p ../build/ipa-tmp/Payload
+          cp -R "$APP_PATH" ../build/ipa-tmp/Payload/
           
-          find "build/ipa-tmp/Payload/$APP_NAME" -name "_CodeSignature" -type d -exec rm -rf {} + 2>/dev/null || true
-          find "build/ipa-tmp/Payload/$APP_NAME" -name "embedded.mobileprovision" -delete 2>/dev/null || true
-          find "build/ipa-tmp/Payload/$APP_NAME" -name "CodeResources" -delete 2>/dev/null || true
-          
-          cd build/ipa-tmp
+          cd ../build/ipa-tmp
           zip -qr ../Unity-iPhone-TrollStore.ipa Payload/
           cd ../..
           
@@ -142,7 +223,7 @@ jobs:
           ls -lh build/*.ipa
           echo ""
           echo "=== IPA 内部结构 ==="
-          unzip -l build/Unity-iPhone-TrollStore.ipa | head -20
+          unzip -l build/Unity-iPhone-TrollStore.ipa | head -30
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4

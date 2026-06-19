@@ -17,52 +17,16 @@ jobs:
           lfs: true
           submodules: recursive
 
-      - name: Check LFS files
-        run: |
-          echo "=== Libraries 目录 ==="
-          ls -la gamewinwinwinwin/Libraries/ || echo "目录不存在"
-          echo ""
-          echo "=== libil2cpp.a 大小 ==="
-          ls -lh gamewinwinwinwin/Libraries/libil2cpp.a || echo "文件不存在"
-          echo ""
-          echo "=== Git LFS 列表 ==="
-          git lfs ls-files | head -30
-          echo ""
-          echo "=== 检查是否是 LFS 指针 ==="
-          head -5 gamewinwinwinwin/Libraries/libil2cpp.a 2>/dev/null || echo "无法读取"
-
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
 
-      - name: Check libil2cpp symbols
-        run: |
-          echo "=== libil2cpp.a 文件信息 ==="
-          ls -lh gamewinwinwinwin/Libraries/libil2cpp.a
-          file gamewinwinwinwin/Libraries/libil2cpp.a
-          
-          echo ""
-          echo "=== 检查 WriteBarrier 符号 ==="
-          nm gamewinwinwinwin/Libraries/libil2cpp.a 2>/dev/null | grep -i "WriteBarrier" | head -20
-          if [ $? -ne 0 ]; then
-            echo "没找到 WriteBarrier 相关符号"
-          fi
-          
-          echo ""
-          echo "=== 检查 Il2CppCodeGen 符号 ==="
-          nm gamewinwinwinwin/Libraries/libil2cpp.a 2>/dev/null | grep -i "Il2CppCodeGen" | head -20
-          if [ $? -ne 0 ]; then
-            echo "没找到 Il2CppCodeGen 相关符号"
-          fi
-          
-          echo ""
-          echo "=== 检查架构 ==="
-          lipo -info gamewinwinwinwin/Libraries/libil2cpp.a 2>/dev/null || echo "无法检查架构"
-
       - name: Build .app (Skip Signing)
         run: |
           cd gamewinwinwinwin
+          LIB_PATH="$(pwd)/Libraries"
+          
           xcodebuild \
             -project Unity-iPhone.xcodeproj \
             -scheme Unity-iPhone \
@@ -78,6 +42,7 @@ jobs:
             DEVELOPMENT_TEAM="" \
             ONLY_ACTIVE_ARCH=NO \
             ENABLE_BITCODE=NO \
+            OTHER_LDFLAGS="-force_load $LIB_PATH/libil2cpp.a -force_load $LIB_PATH/libiPhone-lib.a -force_load $LIB_PATH/baselib.a" \
             build
 
       - name: Find .app
@@ -101,6 +66,7 @@ jobs:
           cp -R "$APP_PATH" build/ipa-tmp/Payload/
           find "build/ipa-tmp/Payload/$APP_NAME" -name "_CodeSignature" -type d -exec rm -rf {} + 2>/dev/null || true
           find "build/ipa-tmp/Payload/$APP_NAME" -name "embedded.mobileprovision" -delete 2>/dev/null || true
+          find "build/ipa-tmp/Payload/$APP_NAME" -name "CodeResources" -delete 2>/dev/null || true
           cd build/ipa-tmp
           zip -qr ../Unity-iPhone-TrollStore.ipa Payload/
           cd ../..

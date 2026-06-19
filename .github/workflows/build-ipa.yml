@@ -16,6 +16,28 @@ jobs:
       with:
         lfs: true
         submodules: recursive
+
+            - name: Check LFS files (诊断)
+      run: |
+        echo "=== Libraries 目录 ==="
+        ls -la gamewinwinwinwin/Libraries/ || echo "目录不存在"
+        
+        echo ""
+        echo "=== libil2cpp.a 大小 ==="
+        ls -lh gamewinwinwinwin/Libraries/libil2cpp.a || echo "文件不存在"
+        
+        echo ""
+        echo "=== Git LFS 列表 ==="
+        git lfs ls-files | head -30
+        
+        echo ""
+        echo "=== 检查是否是 LFS 指针 ==="
+        head -5 gamewinwinwinwin/Libraries/libil2cpp.a 2>/dev/null || echo "无法读取"
+        
+        echo ""
+        echo "=== 手动拉取 LFS ==="
+        git lfs pull
+        git lfs ls-files | head -30
         
     - name: Setup Xcode
       uses: maxim-lobanov/setup-xcode@v1

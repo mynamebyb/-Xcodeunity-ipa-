@@ -11,14 +11,27 @@ jobs:
     timeout-minutes: 90
     
     steps:
-    - name: Checkout
+    - name: Checkout (with Git LFS)
       uses: actions/checkout@v4
-      
+      with:
+        lfs: true           # 关键：拉取 Git LFS 文件
+        submodules: recursive
+        
+    - name: Verify LFS files
+      run: |
+        echo "=== 检查项目文件 ==="
+        ls -la gamewinwinwinwin/
+        ls -la gamewinwinwinwin/Unity-iPhone.xcodeproj/
+        file gamewinwinwinwin/Unity-iPhone.xcodeproj/project.pbxproj
+        
     - name: Setup Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: latest-stable
         
+    - name: Xcode Version
+      run: xcodebuild -version
+      
     - name: Build .app (Skip Signing)
       run: |
         cd gamewinwinwinwin
@@ -38,21 +51,40 @@ jobs:
           DEVELOPMENT_TEAM="" \
           ONLY_ACTIVE_ARCH=NO \
           ENABLE_BITCODE=NO \
-          build
+          build 2>&1 | head -200
+        
+        echo "=== Build Output ==="
+        ls -la ../build/DerivedData/Build/Products/Release-iphoneos/ || true
         
     - name: Package IPA
       run: |
+        # 创建IPA目录结构
         mkdir -p build/Payload
-        cp -R build/DerivedData/Build/Products/Release-iphoneos/*.app build/Payload/
+        
+        # 复制.app到Payload
+        cp -R build/DerivedData/Build/Products/Release-iphoneos/*.app build/Payload/ 2>/dev/null || true
+        
+        # 如果上面失败，尝试找.app
+        if [ ! -d build/Payload/*.app ]; then
+          echo "查找.app文件..."
+          find build/DerivedData -name "*.app" -type d | head -5
+        fi
         
         # 移除签名相关文件
         find build/Payload -name "_CodeSignature" -type d -exec rm -rf {} + 2>/dev/null || true
         find build/Payload -name "embedded.mobileprovision" -delete 2>/dev/null || true
+        find build/Payload -name "CodeResources" -delete 2>/dev/null || true
         
+        # 打包成IPA
         cd build
         zip -qr Unity-iPhone-TrollStore.ipa Payload/
+        cd ..
+        
+        echo "=== IPA Created ==="
+        ls -lh build/*.ipa 2>/dev/null || echo "IPA 未生成"
         
     - name: Upload IPA
+      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: Unity-iPhone-TrollStore-IPA

@@ -42,13 +42,16 @@ jobs:
           cd gamewinwinwinwin
           LIB_PATH="$(pwd)/Libraries"
           
-          # 读取原有 OTHER_LDFLAGS，去掉 -framework UnityFramework（避免自己链接自己）
+          # 读取原有 OTHER_LDFLAGS
           BUILD_SETTINGS=$(xcodebuild -project Unity-iPhone.xcodeproj -target UnityFramework -configuration Release -showBuildSettings 2>/dev/null)
           ORIGINAL_LDFLAGS=$(echo "$BUILD_SETTINGS" | grep -m1 "OTHER_LDFLAGS" | sed 's/^[[:space:]]*OTHER_LDFLAGS = //')
-          echo "原有参数: $ORIGINAL_LDFLAGS"
+          echo "=== 原有参数 ==="
+          echo "$ORIGINAL_LDFLAGS"
           
-          # 去掉 -framework UnityFramework
-          CLEAN_LDFLAGS=$(echo "$ORIGINAL_LDFLAGS" | sed 's/-framework UnityFramework//g')
+          # 去掉所有 -framework UnityFramework（宽松匹配，支持任意空格）
+          CLEAN_LDFLAGS=$(echo "$ORIGINAL_LDFLAGS" | sed -E 's/-framework[[:space:]]+UnityFramework//g')
+          echo "=== 清理后参数 ==="
+          echo "$CLEAN_LDFLAGS"
           
           # 追加 force_load 和系统库
           NEW_LDFLAGS="$CLEAN_LDFLAGS \
@@ -56,11 +59,10 @@ jobs:
             -force_load $LIB_PATH/libiPhone-lib.a \
             -force_load $LIB_PATH/baselib.a \
             -lz \
-            -liconv \
-            -lc++ \
             -lsqlite3"
           
-          echo "新参数: $NEW_LDFLAGS"
+          echo "=== 最终参数 ==="
+          echo "$NEW_LDFLAGS"
           
           xcodebuild \
             -project Unity-iPhone.xcodeproj \

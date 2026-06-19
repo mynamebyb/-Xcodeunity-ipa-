@@ -22,30 +22,13 @@ jobs:
       with:
         xcode-version: latest-stable
         
-    - name: List all schemes (诊断用)
-      run: |
-        cd gamewinwinwinwin
-        echo "=== 所有可用的 Scheme ==="
-        xcodebuild -list -project Unity-iPhone.xcodeproj
-        
-        echo ""
-        echo "=== 所有 Target ==="
-        xcodebuild -list -project Unity-iPhone.xcodeproj | grep -A 20 "Targets:"
-        
-        echo ""
-        echo "=== Scheme 文件检查 ==="
-        ls -la Unity-iPhone.xcodeproj/
-        ls -la Unity-iPhone.xcodeproj/xcshareddata/ 2>/dev/null || echo "没有 xcshareddata"
-        ls -la Unity-iPhone.xcodeproj/xcuserdata/ 2>/dev/null || echo "没有 xcuserdata"
-        
     - name: Build .app (Skip Signing)
       run: |
         cd gamewinwinwinwin
         
-        # 先尝试用 -target 方式构建
         xcodebuild \
           -project Unity-iPhone.xcodeproj \
-          -target Unity-iPhone \
+          -scheme Unity-iPhone \
           -configuration Release \
           -sdk iphoneos \
           -derivedDataPath ../build/DerivedData \
@@ -60,35 +43,47 @@ jobs:
           ENABLE_BITCODE=NO \
           build
         
-    - name: Find .app and verify
+    - name: Find .app
       run: |
         echo "=== 查找 .app 文件 ==="
         find build/DerivedData -name "*.app" -type d | head -10
         
-    - name: Package IPA (Correct Structure)
+        APP_PATH=$(find build/DerivedData -name "*.app" -type d | head -1)
+        if [ -n "$APP_PATH" ]; then
+          echo ""
+          echo "找到: $APP_PATH"
+          ls -la "$APP_PATH/" | head -15
+        fi
+        
+    - name: Package IPA
       run: |
         APP_PATH=$(find build/DerivedData -name "*.app" -type d | head -1)
         APP_NAME=$(basename "$APP_PATH")
         
-        echo "找到的 .app: $APP_PATH"
         echo "App 名称: $APP_NAME"
         
+        # 创建正确的 IPA 目录结构
         rm -rf build/ipa-tmp
         mkdir -p build/ipa-tmp/Payload
         
+        # 复制 .app 到 Payload
         cp -R "$APP_PATH" build/ipa-tmp/Payload/
         
         # 移除签名相关文件
         find "build/ipa-tmp/Payload/$APP_NAME" -name "_CodeSignature" -type d -exec rm -rf {} + 2>/dev/null || true
         find "build/ipa-tmp/Payload/$APP_NAME" -name "embedded.mobileprovision" -delete 2>/dev/null || true
+        find "build/ipa-tmp/Payload/$APP_NAME" -name "CodeResources" -delete 2>/dev/null || true
         
-        # 验证结构
-        echo ""
-        echo "=== IPA 内部文件列表 ==="
+        # 打包 IPA（必须在 ipa-tmp 目录内打包）
         cd build/ipa-tmp
         zip -qr ../Unity-iPhone-TrollStore.ipa Payload/
         cd ../..
         
+        echo ""
+        echo "=== IPA 验证 ==="
+        ls -lh build/*.ipa
+        echo ""
+        echo "=== IPA 内部结构 ==="
         unzip -l build/Unity-iPhone-TrollStore.ipa | head -20
         
     - name: Upload IPA

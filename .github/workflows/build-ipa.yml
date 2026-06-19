@@ -37,10 +37,30 @@ jobs:
             ENABLE_BITCODE=NO \
             build
 
-      - name: Step 2 - Build UnityFramework (with force_load)
+      - name: Step 2 - Build UnityFramework
         run: |
           cd gamewinwinwinwin
           LIB_PATH="$(pwd)/Libraries"
+          
+          # 读取原有 OTHER_LDFLAGS，去掉 -framework UnityFramework（避免自己链接自己）
+          BUILD_SETTINGS=$(xcodebuild -project Unity-iPhone.xcodeproj -target UnityFramework -configuration Release -showBuildSettings 2>/dev/null)
+          ORIGINAL_LDFLAGS=$(echo "$BUILD_SETTINGS" | grep -m1 "OTHER_LDFLAGS" | sed 's/^[[:space:]]*OTHER_LDFLAGS = //')
+          echo "原有参数: $ORIGINAL_LDFLAGS"
+          
+          # 去掉 -framework UnityFramework
+          CLEAN_LDFLAGS=$(echo "$ORIGINAL_LDFLAGS" | sed 's/-framework UnityFramework//g')
+          
+          # 追加 force_load 和系统库
+          NEW_LDFLAGS="$CLEAN_LDFLAGS \
+            -force_load $LIB_PATH/libil2cpp.a \
+            -force_load $LIB_PATH/libiPhone-lib.a \
+            -force_load $LIB_PATH/baselib.a \
+            -lz \
+            -liconv \
+            -lc++ \
+            -lsqlite3"
+          
+          echo "新参数: $NEW_LDFLAGS"
           
           xcodebuild \
             -project Unity-iPhone.xcodeproj \
@@ -53,46 +73,22 @@ jobs:
             ONLY_ACTIVE_ARCH=NO \
             ENABLE_BITCODE=NO \
             LIBRARY_SEARCH_PATHS="$LIB_PATH $(inherited)" \
-            OTHER_LDFLAGS="$(inherited) \
-              -force_load $LIB_PATH/libil2cpp.a \
-              -force_load $LIB_PATH/libiPhone-lib.a \
-              -force_load $LIB_PATH/baselib.a \
-              -framework UIKit \
-              -framework Foundation \
-              -framework CoreGraphics \
-              -framework QuartzCore \
-              -framework Metal \
-              -framework MetalKit \
-              -framework OpenGLES \
-              -framework AudioToolbox \
-              -framework AVFoundation \
-              -framework GameKit \
-              -framework StoreKit \
-              -framework SystemConfiguration \
-              -framework CoreTelephony \
-              -framework CoreLocation \
-              -framework CFNetwork \
-              -framework Security \
-              -framework CoreText \
-              -framework CoreMedia \
-              -framework CoreVideo \
-              -framework GameController \
-              -framework AVKit \
-              -framework MediaToolbox \
-              -framework OpenAL \
-              -framework MobileCoreServices \
-              -framework WebKit \
-              -lz \
-              -liconv \
-              -lc++ \
-              -lsqlite3" \
+            OTHER_LDFLAGS="$NEW_LDFLAGS" \
             build
 
-      - name: Step 3 - Build main app (with UnityFramework)
+      - name: Step 3 - Build main app
         run: |
           cd gamewinwinwinwin
           BUILD_PRODUCTS_PATH=$(xcodebuild -project Unity-iPhone.xcodeproj -target Unity-iPhone -configuration Release -showBuildSettings 2>/dev/null | grep -m1 "BUILT_PRODUCTS_DIR" | sed 's/^[[:space:]]*BUILT_PRODUCTS_DIR = //')
           echo "构建产物路径: $BUILD_PRODUCTS_PATH"
+          
+          # 读取原有 OTHER_LDFLAGS
+          BUILD_SETTINGS=$(xcodebuild -project Unity-iPhone.xcodeproj -target Unity-iPhone -configuration Release -showBuildSettings 2>/dev/null)
+          ORIGINAL_LDFLAGS=$(echo "$BUILD_SETTINGS" | grep -m1 "OTHER_LDFLAGS" | sed 's/^[[:space:]]*OTHER_LDFLAGS = //')
+          echo "原有参数: $ORIGINAL_LDFLAGS"
+          
+          # 追加 UnityFramework
+          NEW_LDFLAGS="$ORIGINAL_LDFLAGS -framework UnityFramework"
           
           xcodebuild \
             -project Unity-iPhone.xcodeproj \
@@ -109,7 +105,7 @@ jobs:
             ONLY_ACTIVE_ARCH=NO \
             ENABLE_BITCODE=NO \
             FRAMEWORK_SEARCH_PATHS="$BUILD_PRODUCTS_PATH $(inherited)" \
-            OTHER_LDFLAGS="$(inherited) -framework UnityFramework" \
+            OTHER_LDFLAGS="$NEW_LDFLAGS" \
             build
 
       - name: Find .app

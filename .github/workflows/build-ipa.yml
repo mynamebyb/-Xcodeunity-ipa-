@@ -27,6 +27,17 @@ jobs:
           cd gamewinwinwinwin
           LIB_PATH="$(pwd)/Libraries"
           
+          # 先读取原有的 OTHER_LDFLAGS
+          echo "=== 读取原有链接参数 ==="
+          BUILD_SETTINGS=$(xcodebuild -project Unity-iPhone.xcodeproj -scheme Unity-iPhone -configuration Release -showBuildSettings 2>/dev/null)
+          ORIGINAL_LDFLAGS=$(echo "$BUILD_SETTINGS" | grep -m1 "OTHER_LDFLAGS" | sed 's/^[[:space:]]*OTHER_LDFLAGS = //')
+          echo "原有参数: $ORIGINAL_LDFLAGS"
+          
+          # 追加 force_load
+          NEW_LDFLAGS="$ORIGINAL_LDFLAGS -force_load $LIB_PATH/libil2cpp.a -force_load $LIB_PATH/libiPhone-lib.a -force_load $LIB_PATH/baselib.a"
+          echo "新参数: $NEW_LDFLAGS"
+          
+          # 构建
           xcodebuild \
             -project Unity-iPhone.xcodeproj \
             -scheme Unity-iPhone \
@@ -42,7 +53,7 @@ jobs:
             DEVELOPMENT_TEAM="" \
             ONLY_ACTIVE_ARCH=NO \
             ENABLE_BITCODE=NO \
-            OTHER_LDFLAGS="-force_load $LIB_PATH/libil2cpp.a -force_load $LIB_PATH/libiPhone-lib.a -force_load $LIB_PATH/baselib.a" \
+            OTHER_LDFLAGS="$NEW_LDFLAGS" \
             build
 
       - name: Find .app

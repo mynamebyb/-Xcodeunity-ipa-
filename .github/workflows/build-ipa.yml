@@ -17,27 +17,6 @@ jobs:
           lfs: true
           submodules: recursive
 
-      - name: Check library paths in Xcode project
-        run: |
-          echo "=== 搜索 libil2cpp 引用 ==="
-          grep -i "libil2cpp" gamewinwinwinwin/Unity-iPhone.xcodeproj/project.pbxproj | head -20
-          
-          echo ""
-          echo "=== 搜索 libiPhone 引用 ==="
-          grep -i "libiphone" gamewinwinwinwin/Unity-iPhone.xcodeproj/project.pbxproj | head -20
-          
-          echo ""
-          echo "=== 搜索 baselib 引用 ==="
-          grep -i "baselib" gamewinwinwinwin/Unity-iPhone.xcodeproj/project.pbxproj | head -20
-          
-          echo ""
-          echo "=== 搜索 LibrarySearchPath ==="
-          grep -i "LIBRARY_SEARCH_PATHS" gamewinwinwinwin/Unity-iPhone.xcodeproj/project.pbxproj | head -10
-          
-          echo ""
-          echo "=== 搜索 FrameworkSearchPath ==="
-          grep -i "FRAMEWORK_SEARCH_PATHS" gamewinwinwinwin/Unity-iPhone.xcodeproj/project.pbxproj | head -10
-
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
@@ -53,25 +32,12 @@ jobs:
           ORIGINAL_LDFLAGS=$(echo "$BUILD_SETTINGS" | grep -m1 "OTHER_LDFLAGS" | sed 's/^[[:space:]]*OTHER_LDFLAGS = //')
           echo "原有参数: $ORIGINAL_LDFLAGS"
           
-          # 追加所有需要的框架和库
+          # 追加 force_load 和系统库（修正了 -lz 拼写）
           NEW_LDFLAGS="$ORIGINAL_LDFLAGS \
             -force_load $LIB_PATH/libil2cpp.a \
             -force_load $LIB_PATH/libiPhone-lib.a \
             -force_load $LIB_PATH/baselib.a \
-            -framework UIKit \
-            -framework Foundation \
-            -framework CoreGraphics \
-            -framework QuartzCore \
-            -framework Metal \
-            -framework MetalKit \
-            -framework AudioToolbox \
-            -framework AVFoundation \
-            -framework GameKit \
-            -framework StoreKit \
-            -framework SystemConfiguration \
-            -framework CoreTelephony \
-            -framework WebKit \
-            -liz \
+            -lz \
             -liconv \
             -lc++"
           

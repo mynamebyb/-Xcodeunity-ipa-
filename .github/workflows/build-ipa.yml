@@ -36,6 +36,30 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      - name: Check libil2cpp symbols
+        run: |
+          echo "=== libil2cpp.a 文件信息 ==="
+          ls -lh gamewinwinwinwin/Libraries/libil2cpp.a
+          file gamewinwinwinwin/Libraries/libil2cpp.a
+          
+          echo ""
+          echo "=== 检查 WriteBarrier 符号 ==="
+          nm gamewinwinwinwin/Libraries/libil2cpp.a 2>/dev/null | grep -i "WriteBarrier" | head -20
+          if [ $? -ne 0 ]; then
+            echo "没找到 WriteBarrier 相关符号"
+          fi
+          
+          echo ""
+          echo "=== 检查 Il2CppCodeGen 符号 ==="
+          nm gamewinwinwinwin/Libraries/libil2cpp.a 2>/dev/null | grep -i "Il2CppCodeGen" | head -20
+          if [ $? -ne 0 ]; then
+            echo "没找到 Il2CppCodeGen 相关符号"
+          fi
+          
+          echo ""
+          echo "=== 检查架构 ==="
+          lipo -info gamewinwinwinwin/Libraries/libil2cpp.a 2>/dev/null || echo "无法检查架构"
+
       - name: Build .app (Skip Signing)
         run: |
           cd gamewinwinwinwin

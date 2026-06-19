@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7c2c4610f9d880174c180cdfd63a6fec507d88721aaf6f3c2b11eee87b683c3a
-size 870
+// DO NOT PUT #pragma once or include guard check here
+// This header is designed to be able to be included multiple times
+
+// This header should only be used together with PreExternalInclude.h.
+// See PreExternalInclude.h for usage information.
+
+#ifndef DETAIL__PREEXTERNALINCLUDE_HAS_BEEN_INCLUDED
+    #error "PostExternalInclude.h can only be included after PreExternalInclude.h got included before."
+#endif
+
+#undef DETAIL__PREEXTERNALINCLUDE_HAS_BEEN_INCLUDED
+
+// if 3rd party library made windows.h be included, undefine SendMessage
+// macro that winuser.h declared
+#if !DETAIL__WINUSER_H_HAS_BEEN_INCLUDED && defined(_WINUSER_)
+#undef SendMessage
+#endif
+#undef DETAIL__WINUSER_H_HAS_BEEN_INCLUDED
+
+#include "Internal/RedefineCompilerMacros.h"
+
+// undefine whatever might be defined already
+#include "Internal/UndefineCoreMacros.h"
+#include "Internal/CoreMacros.h"

@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d8e0b4b8d9653b32fb4a92a6cc4c17d4e10478cd5f36d393c9e20b3125ed29a1
-size 493
+#include "il2cpp-config.h"
+#include "os/Memory.h"
+
+#if IL2CPP_TARGET_WINDOWS
+
+namespace il2cpp
+{
+namespace os
+{
+namespace Memory
+{
+    void* AlignedAlloc(size_t size, size_t alignment)
+    {
+        return _aligned_malloc(size, alignment);
+    }
+
+    void* AlignedReAlloc(void* memory, size_t newSize, size_t alignment)
+    {
+        return _aligned_realloc(memory, newSize, alignment);
+    }
+
+    void AlignedFree(void* memory)
+    {
+        return _aligned_free(memory);
+    }
+}
+}
+}
+
+#endif

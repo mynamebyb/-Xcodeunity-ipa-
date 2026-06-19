@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:09567871830253a1b57423ad5185cae0856c77ee4a8dff4517bf7425e1824276
-size 560
+#include "VmThreadUtils.h"
+#include "os/Thread.h"
+
+namespace il2cpp
+{
+namespace utils
+{
+    Il2CppStackPointerResult VmThreadUtils::PointerIsOnCurrentThreadStack(void* ptr)
+    {
+        void* low;
+        void* high;
+        if (il2cpp::os::Thread::GetCurrentThreadStackBounds(&low, &high))
+        {
+            if ((uintptr_t)ptr >= (uintptr_t)low && (uintptr_t)ptr <= (uintptr_t)high)
+                return Il2CppStackPointerIsOnStack;
+            return Il2CppStackPointerIsNotOnStack;
+        }
+
+        return Il2CppStackPointerNotSupported;
+    }
+}
+}

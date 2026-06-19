@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b3a3527c6f226aad054b0596a8bbb2fe95a694b472a934c6bd0ff2229f56eabf
-size 301
+#include "il2cpp-config.h"
+#include "gc/WriteBarrier.h"
+#include "gc/GarbageCollector.h"
+
+namespace il2cpp
+{
+namespace gc
+{
+    void WriteBarrier::GenericStore(void** ptr, void* value)
+    {
+        *ptr = value;
+        GarbageCollector::SetWriteBarrier((void**)ptr);
+    }
+} /* gc */
+} /* il2cpp */

@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c441f706c1292bd8f6b1583327729e3d58bd3a96e54db36ab804232af6bd469d
-size 262
+/**
+ * \file
+ * ARM64 hardware feature detection
+ *
+ * Copyright 2013 Xamarin Inc
+ * Licensed under the MIT license. See LICENSE file in the project root for full license information.
+ */
+
+#include "mono/utils/mono-hwcap.h"
+
+void
+mono_hwcap_arch_init (void)
+{
+}

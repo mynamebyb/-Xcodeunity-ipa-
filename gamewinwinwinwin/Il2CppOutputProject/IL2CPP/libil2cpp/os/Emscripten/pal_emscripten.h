@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d591155cb2cea8d3d0a1064274203b36293f35f377bcec6607dd0816f64407b8
-size 435
+#pragma once
+
+#include "il2cpp-config.h"
+
+#if IL2CPP_TARGET_JAVASCRIPT
+
+#define IL2CPP_USES_POSIX_CLASS_LIBRARY_PAL 1
+
+#define IL2CPP_HAVE_STAT_FLAGS 1
+#define IL2CPP_HAVE_STAT_FLAGS 1
+#define IL2CPP_HAVE_LCHFLAGS 1
+#define IL2CPP_HAVE_FUTIMENS 1
+#define IL2CPP_HAVE_FIXED_SIZE_DIRENT 1
+#define IL2CPP_HAVE_SYS_UN 1
+
+#define stat_ stat
+#define fstat_ fstat
+#define lstat_ lstat
+
+#include <dirent.h>
+
+#endif // IL2CPP_TARGET_JAVASCRIPT

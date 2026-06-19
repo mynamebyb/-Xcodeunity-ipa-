@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0cd1c4180501a02e2b9d9528c0675c0317f1563cda9bdb34920a663b9391e198
-size 429
+#pragma once
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace System
+{
+namespace System
+{
+namespace Diagnostics
+{
+    class LIBIL2CPP_CODEGEN_API FileVersionInfo
+    {
+    public:
+        static void GetVersionInfo_icall(Il2CppObject* thisPtr, Il2CppChar* fileName, int32_t fileName_length);
+    };
+} /* namespace Diagnostics */
+} /* namespace System */
+} /* namespace System */
+} /* namespace icalls */
+} /* namespace il2cpp */

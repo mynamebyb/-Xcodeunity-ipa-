@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9bbee3b30f246ab1f4c945ad6a78e3ba6e0fd9a198a1be006f6d39936dab0bac
-size 780
+#include <UnityFramework/UnityFramework.h>
+
+UnityFramework* UnityFrameworkLoad()
+{
+    NSString* bundlePath = nil;
+    bundlePath = [[NSBundle mainBundle] bundlePath];
+    bundlePath = [bundlePath stringByAppendingString: @"/Frameworks/UnityFramework.framework"];
+
+    NSBundle* bundle = [NSBundle bundleWithPath: bundlePath];
+    if ([bundle isLoaded] == false) [bundle load];
+
+    UnityFramework* ufw = [bundle.principalClass getInstance];
+    if (![ufw appController])
+    {
+        // unity is not initialized
+        [ufw setExecuteHeader: &_mh_execute_header];
+    }
+    return ufw;
+}
+
+int main(int argc, char* argv[])
+{
+    @autoreleasepool
+    {
+        id ufw = UnityFrameworkLoad();
+        [ufw runUIApplicationMainWithArgc: argc argv: argv];
+        return 0;
+    }
+}

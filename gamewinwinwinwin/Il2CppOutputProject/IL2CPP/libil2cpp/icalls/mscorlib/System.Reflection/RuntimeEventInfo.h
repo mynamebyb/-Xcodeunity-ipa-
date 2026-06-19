@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:eb8e0a38a3cf83956fe175a5a855deea2efc9bb1112477acc664119726e91ba4
-size 522
+#pragma once
+#include <il2cpp-object-internals.h>
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+namespace Reflection
+{
+    class LIBIL2CPP_CODEGEN_API RuntimeEventInfo
+    {
+    public:
+        static int32_t get_metadata_token(Il2CppObject* monoEvent);
+        static void get_event_info(Il2CppReflectionMonoEvent* event, Il2CppReflectionMonoEventInfo* eventInfo);
+    };
+} // namespace Reflection
+} // namespace System
+} // namespace mscorlib
+} // namespace icalls
+} // namespace il2cpp

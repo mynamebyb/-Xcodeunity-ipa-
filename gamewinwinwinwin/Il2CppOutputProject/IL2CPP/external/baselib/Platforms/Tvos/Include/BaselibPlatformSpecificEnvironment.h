@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1b92511b1466bd525b3ea8a5d06ee92fae1929ac7fe3521edb4ff181049d06fa
-size 519
+#pragma once
+
+/*
+namespace detail
+{
+    struct Semaphore
+    {
+        dispatch_semaphore_t handle;
+        baselib::atomic<int32_t> counter;
+    };
+}
+*/
+enum { Baselib_SystemSemaphore_PlatformSize = 16 }; // Size should match size of struct above
+
+#ifndef EXPORTED_SYMBOL
+    #define EXPORTED_SYMBOL __attribute__((visibility("default")))
+#endif
+#ifndef IMPORTED_SYMBOL
+    #define IMPORTED_SYMBOL
+#endif
+
+// Prohibited by apple
+#ifndef PLATFORM_FUTEX_NATIVE_SUPPORT
+    #define PLATFORM_FUTEX_NATIVE_SUPPORT 0
+#endif

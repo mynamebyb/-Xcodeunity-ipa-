@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b3f9b2e9f272c7d442ad04d3e1039f2736947634bdd4febb2ec16aa27f3d378c
-size 467
+#pragma once
+
+#include <stdint.h>
+#include "il2cpp-config.h"
+
+namespace il2cpp
+{
+namespace vm
+{
+    class LIBIL2CPP_CODEGEN_API LastError
+    {
+    public:
+        static uint32_t GetLastError();
+        static void SetLastError(uint32_t error);
+        static void StoreLastError();
+
+        static void InitializeLastErrorThreadStatic();
+
+    private:
+        static int32_t s_LastErrorThreadLocalStorageOffset;
+    };
+} /* namespace vm */
+} /* namespace il2cpp */

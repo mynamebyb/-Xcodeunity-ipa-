@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c77adaf9126a66b282f2552e5cc2bdd798f7899fb00339fd9495469888885bbd
-size 228
+/**
+ * \file
+ *
+ * (C) 2018 Microsoft, Inc.
+ *
+ */
+#ifndef _MONO_UTILS_FORWARD_
+#define _MONO_UTILS_FORWARD_
+
+typedef struct _MonoDomain MonoDomain;
+typedef struct _MonoJitInfo MonoJitInfo;
+
+typedef void * MonoGCHandle;
+
+#endif

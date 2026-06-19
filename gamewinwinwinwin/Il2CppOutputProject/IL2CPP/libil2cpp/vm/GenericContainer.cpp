@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:11cbafbb6ab240dfb9fe78f2defaa9eacf324bc4374624b7ca67fcf71d46840e
-size 567
+#include "il2cpp-config.h"
+#include "GenericContainer.h"
+#include "MetadataCache.h"
+
+namespace il2cpp
+{
+namespace vm
+{
+    Il2CppClass* GenericContainer::GetDeclaringType(Il2CppMetadataGenericContainerHandle handle)
+    {
+        return MetadataCache::GetContainerDeclaringType(handle);
+    }
+
+    Il2CppMetadataGenericParameterHandle GenericContainer::GetGenericParameter(Il2CppMetadataGenericContainerHandle handle, uint16_t index)
+    {
+        return MetadataCache::GetGenericParameterFromIndex(handle, index);
+    }
+} /* namespace vm */
+} /* namespace il2cpp */

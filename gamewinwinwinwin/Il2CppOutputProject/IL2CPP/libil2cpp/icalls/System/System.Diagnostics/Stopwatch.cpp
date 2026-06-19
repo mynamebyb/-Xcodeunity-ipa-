@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8c0854ccf003059de7ec4a61cf94061dd1c6ad649d0fdaf3d85bdbe0f266df05
-size 455
+#include "il2cpp-config.h"
+#include "icalls/System/System.Diagnostics/Stopwatch.h"
+#include "os/Time.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace System
+{
+namespace System
+{
+namespace Diagnostics
+{
+    int64_t Stopwatch::GetTimestamp()
+    {
+        return il2cpp::os::Time::GetTicks100NanosecondsMonotonic();
+    }
+} /* namespace Diagnostics */
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

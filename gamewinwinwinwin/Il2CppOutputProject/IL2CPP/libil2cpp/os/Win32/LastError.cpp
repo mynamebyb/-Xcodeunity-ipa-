@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8f731e450eea515dcb3b7ec94ed60de52a459143ef1feb20510021bf41366aea
-size 282
+#include "il2cpp-config.h"
+
+#if IL2CPP_TARGET_WINDOWS
+
+#include "os/LastError.h"
+
+#include "WindowsHeaders.h"
+
+namespace il2cpp
+{
+namespace os
+{
+    uint32_t LastError::GetLastError()
+    {
+        return ::GetLastError();
+    }
+} /* namespace os */
+} /* namespace il2cpp*/
+
+#endif

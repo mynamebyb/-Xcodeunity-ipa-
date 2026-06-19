@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:07a8b38fdd89f8b338fef9aa9dcb7dc1102841331860b561d04cd3be274049e3
-size 86
+#include "il2cpp-runtime-stats.h"
+
+Il2CppRuntimeStats il2cpp_runtime_stats = {{ 0 }};

@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c1671fdc61a928fac5e5ae5b90598773459bfd3e12ad02c79f17bf558dab594e
-size 404
+#pragma once
+
+#include "il2cpp-config.h"
+struct ParameterInfo;
+struct Il2CppObject;
+
+namespace il2cpp
+{
+namespace vm
+{
+    class LIBIL2CPP_CODEGEN_API Parameter
+    {
+    public:
+        // internal
+        static Il2CppObject* GetDefaultParameterValueObject(const MethodInfo* method, int32_t parameterPosition, bool* isExplicitySetNullDefaultValue);
+    };
+} /* namespace vm */
+} /* namespace il2cpp */

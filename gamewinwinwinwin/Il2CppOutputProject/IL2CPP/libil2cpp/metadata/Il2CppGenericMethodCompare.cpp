@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:402c186f1e998cb415a13f082c7b5285fd11b07f79afef38416b37d9011c52a0
-size 675
+#include "il2cpp-config.h"
+#include "il2cpp-class-internals.h"
+#include "Il2CppGenericMethodCompare.h"
+#include "Il2CppGenericContextCompare.h"
+
+namespace il2cpp
+{
+namespace metadata
+{
+    bool Il2CppGenericMethodCompare::operator()(const Il2CppGenericMethod* m1, const Il2CppGenericMethod* m2) const
+    {
+        return Equals(m1, m2);
+    }
+
+    bool Il2CppGenericMethodCompare::Equals(const Il2CppGenericMethod* m1, const Il2CppGenericMethod* m2)
+    {
+        if (m1->methodDefinition != m2->methodDefinition)
+            return false;
+
+        return Il2CppGenericContextCompare::Compare(&m1->context, &m2->context);
+    }
+} /* namespace vm */
+} /* namespace il2cpp */

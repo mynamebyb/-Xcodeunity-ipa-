@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bf098c7e36da6521ece66d6d020778b2b1be9d3937058707aa414a02ab3ca310
-size 466
+#include "os/Assert.h"
+
+#if IL2CPP_DEBUG
+
+#if IL2CPP_TARGET_WINDOWS || IL2CPP_TARGET_XBOXONE || IL2CPP_TARGET_WINRT || IL2CPP_TARGET_WINDOWS_GAMES
+#include <crtdbg.h>
+
+void il2cpp_assert(const char* assertion, const char* file, unsigned int line)
+{
+    if (_CrtDbgReport(_CRT_ASSERT, file, line, "", "%s", assertion) == 1)
+    {
+        _CrtDbgBreak();
+    }
+}
+
+#endif // IL2CPP_TARGET_WINDOWS || IL2CPP_TARGET_XBOXONE || IL2CPP_TARGET_WINRT
+
+#endif // IL2CPP_DEBUG

@@ -1,3 +1,33 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:53ade4f2ab3c1ab3c896f58b8000b76bfbafa1d8d026cf7fd76a53e7eedbd03a
-size 671
+#pragma once
+
+#include "il2cpp-config.h"
+#include "il2cpp-object-internals.h"
+
+struct Il2CppString;
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+namespace Security
+{
+namespace Principal
+{
+    class LIBIL2CPP_CODEGEN_API WindowsIdentity
+    {
+    public:
+        static intptr_t GetCurrentToken();
+        static intptr_t GetUserToken(Il2CppString* username);
+        static Il2CppString* GetTokenName(intptr_t token);
+        static Il2CppArray* _GetRoles(intptr_t token);
+    };
+} /* namespace Principal */
+} /* namespace Security */
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

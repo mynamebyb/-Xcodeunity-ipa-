@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:19654e2f03b8ce8aaf0c96fae75effe7fab4dfc3682fbc5ba617dbb8141479cf
-size 441
+#include "os/c-api/il2cpp-config-platforms.h"
+
+#if IL2CPP_TARGET_WINDOWS
+
+#include "os/Debug.h"
+#include "os/Win32/WindowsHeaders.h"
+#include "utils/StringUtils.h"
+
+namespace il2cpp
+{
+namespace os
+{
+    bool Debug::IsDebuggerPresent()
+    {
+        return ::IsDebuggerPresent() != FALSE;
+    }
+
+    void Debug::WriteString(const utils::StringView<Il2CppNativeChar>& message)
+    {
+        OutputDebugString(message.Str());
+    }
+}
+}
+
+#endif

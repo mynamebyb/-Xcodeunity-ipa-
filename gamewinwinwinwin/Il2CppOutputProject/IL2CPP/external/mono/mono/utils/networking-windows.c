@@ -1,3 +1,41 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6b58f3a0a1db7cab3aa30beede7a86e7d4fa8b68fdc200938ecbe6b86414e507
-size 627
+/**
+ * \file
+ * Windows-specific networking implementations
+ *
+ * Author:
+ *	Alexander Köplinger (alex.koeplinger@outlook.com)
+ */
+
+#include <mono/utils/networking.h>
+
+#if defined(HOST_WIN32)
+
+void *
+mono_get_local_interfaces (int family, int *interface_count)
+{
+	*interface_count = 0;
+	return NULL;
+}
+
+void
+mono_networking_init (void)
+{
+	WSADATA wsadata;
+	int err;
+
+	err = WSAStartup (2 /* 2.0 */, &wsadata);
+	if(err)
+		g_error ("%s: Couldn't initialise networking", __func__);
+}
+
+void
+mono_networking_shutdown (void)
+{
+	WSACleanup ();
+}
+
+#else
+
+MONO_EMPTY_SOURCE_FILE (networking_windows);
+
+#endif /* defined(HOST_WIN32) */

@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e93510da4e87e076fd3238a8d2fe208387316d8c2ba522361b14cf5806de117f
-size 432
+#include "il2cpp-config.h"
+#include "pal_platform.h"
+
+#if IL2CPP_USES_POSIX_CLASS_LIBRARY_PAL
+
+#include "pal_platform.h"
+
+#include <unistd.h>
+
+extern "C"
+{
+    // Items needed by mscorlib
+    IL2CPP_EXPORT uint32_t SystemNative_GetEUid(void);
+    IL2CPP_EXPORT uint32_t SystemNative_GetEGid(void);
+}
+
+uint32_t SystemNative_GetEUid(void)
+{
+    return geteuid_();
+}
+
+uint32_t SystemNative_GetEGid()
+{
+    return getegid_();
+}
+
+#endif

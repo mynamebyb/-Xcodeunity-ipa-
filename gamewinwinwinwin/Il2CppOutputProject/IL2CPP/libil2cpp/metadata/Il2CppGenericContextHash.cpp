@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a86a027d132e0213989feb4f4bdee3a17c42bab507fb07233acd6926ec9c87f2
-size 773
+#include "il2cpp-config.h"
+#include "il2cpp-class-internals.h"
+#include "Il2CppGenericContextHash.h"
+#include "Il2CppGenericInstHash.h"
+#include "Il2CppTypeHash.h"
+#include "utils/HashUtils.h"
+
+using il2cpp::utils::HashUtils;
+
+namespace il2cpp
+{
+namespace metadata
+{
+    size_t Il2CppGenericContextHash::operator()(const Il2CppGenericContext* context) const
+    {
+        return Hash(context);
+    }
+
+    size_t Il2CppGenericContextHash::Hash(const Il2CppGenericContext* context)
+    {
+        size_t classInstHash = HashUtils::AlignedPointerHash(context->class_inst);
+        size_t methodInstHash = HashUtils::AlignedPointerHash(context->method_inst);
+
+        return HashUtils::Combine(classInstHash, methodInstHash);
+    }
+} /* namespace vm */
+} /* namespace il2cpp */

@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:036f7bb015855a29a634517aa1d04bc01c4dd06ff840a93de1104d8c8ed823dd
-size 300
+#pragma once
+
+#include "../Baselib_StaticAssert.h"
+
+#define BASELIB_ENUM_ENSURE_ABI_COMPATIBILITY(_enumType)  \
+    BASELIB_STATIC_ASSERT(sizeof(_enumType) == 4,         \
+        "Baselib assumes that sizeof any enum type is exactly 4 bytes, there might be ABI compatibility problems if violated");

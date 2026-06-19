@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:314c189fba38afd25fcf6d1ae00450edac07e23cd4970cfc1a36c90fa210ff21
-size 571
+#pragma once
+#if IL2CPP_THREADS_PTHREAD && !RUNTIME_TINY
+
+#include <stdint.h>
+#include <pthread.h>
+#include "utils/NonCopyable.h"
+
+class FastMutexImpl;
+
+namespace il2cpp
+{
+namespace os
+{
+    class ConditionVariableImpl : public il2cpp::utils::NonCopyable
+    {
+    public:
+        ConditionVariableImpl();
+        ~ConditionVariableImpl();
+
+        int Wait(FastMutexImpl* lock);
+        int TimedWait(FastMutexImpl* lock, uint32_t timeout_ms);
+        void Broadcast();
+        void Signal();
+
+    private:
+        pthread_cond_t m_ConditionVariable;
+    };
+}
+}
+
+#endif

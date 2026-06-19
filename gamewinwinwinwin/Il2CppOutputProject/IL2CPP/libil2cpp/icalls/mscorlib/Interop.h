@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9b67068c76e7c4b6ef53026542d19f3a5e4de637f479a3c064761481be6572e2
-size 422
+#pragma once
+
+struct Il2CppMonoAssemblyName;
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+    class LIBIL2CPP_CODEGEN_API Interop
+    {
+    public:
+        class LIBIL2CPP_CODEGEN_API Sys
+        {
+        public:
+            static int32_t DoubleToString(double value, char* format, char* buffer, int32_t bufferLength);
+        };
+    };
+} // namespace mscorlib
+} // namespace icalls
+} // namespace il2cpp

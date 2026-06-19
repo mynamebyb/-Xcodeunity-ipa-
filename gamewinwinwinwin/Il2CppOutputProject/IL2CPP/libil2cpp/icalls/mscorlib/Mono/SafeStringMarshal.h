@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b44cf7459063062d2518870325c8b208b68cf32c04d163c42a10c8110eea2251
-size 405
+#pragma once
+
+#include "il2cpp-object-internals.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace Mono
+{
+    class LIBIL2CPP_CODEGEN_API SafeStringMarshal
+    {
+    public:
+        static intptr_t StringToUtf8_icall(Il2CppString *volatile* str);
+        static void GFree(intptr_t ptr);
+    };
+} // namespace Mono
+} // namespace mscorlib
+} // namespace icalls
+} // namespace il2cpp

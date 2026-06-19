@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c6026ea74227ceafde5b96e363a12ba8f8d7063d19ab2d598a3ae06c2f186afb
-size 373
+#pragma once
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+namespace Reflection
+{
+    class LIBIL2CPP_CODEGEN_API MethodBase
+    {
+    public:
+        static Il2CppReflectionMethod* GetCurrentMethod();
+    };
+} /* namespace Reflection */
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fd24c589aea2c067a528d627f7a9df70cbfe068db6cd574d47168dade916ebbb
-size 226
+#include "il2cpp-config.h"
+
+#if IL2CPP_USE_GENERIC_CRASH_HELPERS
+
+#include "os/CrashHelpers.h"
+
+#include <cstdlib>
+
+namespace il2cpp
+{
+namespace os
+{
+    void CrashHelpers::CrashImpl()
+    {
+        abort();
+    }
+}
+}
+
+#endif

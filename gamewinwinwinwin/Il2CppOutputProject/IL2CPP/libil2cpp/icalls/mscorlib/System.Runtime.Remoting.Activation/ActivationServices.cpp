@@ -1,3 +1,46 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9c0fcb31932bcd34d2c51f79fc81e55c27598c4a10c6804d4ede5cbeee581695
-size 1138
+#include "il2cpp-config.h"
+#include "il2cpp-api.h"
+#include "icalls/mscorlib/System.Runtime.Remoting.Activation/ActivationServices.h"
+#include "il2cpp-object-internals.h"
+#include "il2cpp-class-internals.h"
+#include "il2cpp-runtime-metadata.h"
+#include "vm/Image.h"
+#include "vm/Class.h"
+#include "vm/Exception.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+namespace Runtime
+{
+namespace Remoting
+{
+namespace Activation
+{
+    void ActivationServices::EnableProxyActivation(Il2CppReflectionType*, bool)
+    {
+        NOT_SUPPORTED_REMOTING(ActivationServices::EnableProxyActivation);
+    }
+
+    Il2CppObject* ActivationServices::AllocateUninitializedClassInstance(Il2CppReflectionType * type)
+    {
+        Il2CppClass* typeInfo = vm::Class::FromIl2CppType(type->type);
+
+        if (typeInfo == NULL)
+            return NULL;
+
+        il2cpp::vm::Class::Init(typeInfo);
+        return il2cpp_object_new(typeInfo);
+    }
+} /* namespace Activation */
+} /* namespace Remoting */
+} /* namespace Runtime */
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

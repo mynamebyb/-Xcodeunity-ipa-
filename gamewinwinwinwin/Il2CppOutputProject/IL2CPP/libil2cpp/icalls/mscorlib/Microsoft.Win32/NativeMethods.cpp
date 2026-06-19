@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3f8cc1fd8390c7b48f5c7f5c81961db65787dfe5e5bf55381586c6650225c5f7
-size 405
+#include "il2cpp-config.h"
+#include "NativeMethods.h"
+
+#include "os/Process.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace Microsoft
+{
+namespace Win32
+{
+    int32_t NativeMethods::GetCurrentProcessId()
+    {
+        return os::Process::GetCurrentProcessId();
+    }
+} // namespace Win32
+} // namespace Microsoft
+} // namespace mscorlib
+} // namespace icalls
+} // namespace il2cpp

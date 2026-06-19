@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f1c36e84fd7de1e4e8f34b7e924b169b8527e01a64e70dbc0c611c913d1c4e73
-size 331
+#pragma once
+
+#include "il2cpp-api-types.h"
+#include "il2cpp-metadata.h"
+
+#if IL2CPP_ENABLE_NATIVE_STACKTRACES
+struct MethodDefinitionKey
+{
+    Il2CppMethodPointer method;
+#if IL2CPP_TINY_DEBUG_METADATA && !IL2CPP_TINY_DEBUGGER
+    int32_t methodIndex;
+#else
+    Il2CppMetadataMethodDefinitionHandle methodHandle;
+#endif
+};
+#endif

@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c44a7e7e03940000db4b565b209b1091668820fff6bbd28fcb95c407cbfc2e8b
-size 470
+/**
+ * \file
+ */
+
+#ifndef __MONO_G_HASH_INTERNALS_H__
+#define __MONO_G_HASH_INTERNALS_H__
+
+#include "mono/metadata/mono-hash.h"
+#include "mono/metadata/mono-gc.h"
+
+MonoGHashTable *
+mono_g_hash_table_new_type_internal (GHashFunc hash_func, GEqualFunc key_equal_func, MonoGHashGCType type, MonoGCRootSource source, void *key, const char *msg);
+
+void 
+mono_g_hash_table_insert_internal (MonoGHashTable *h, gpointer k, gpointer v);
+
+#endif /* __MONO_G_HASH_INTERNALS_H__ */

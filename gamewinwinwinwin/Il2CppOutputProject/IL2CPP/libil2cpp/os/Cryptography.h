@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b25ac4e9b33c9ce575f8a8d69bd45ca6ddb0a43cde9a7809b650fa88379197d0
-size 665
+#pragma once
+
+namespace il2cpp
+{
+namespace os
+{
+    class Cryptography
+    {
+    public:
+        /* Returns a handle the cryptography provider to use in other calls on this API. */
+        static void* GetCryptographyProvider();
+
+        /* Open the cryptogrpahy provider. */
+        static bool OpenCryptographyProvider();
+
+        /* Indicate that the cyrptography provider is no longer in use. */
+        static void ReleaseCryptographyProvider(void* provider);
+
+        /* Use the provider to fill the buffer with cryptographically random bytes. */
+        static bool FillBufferWithRandomBytes(void* provider, intptr_t length, unsigned char* data);
+    };
+}
+}

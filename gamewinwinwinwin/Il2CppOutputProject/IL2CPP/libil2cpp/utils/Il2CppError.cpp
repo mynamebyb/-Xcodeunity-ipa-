@@ -1,3 +1,36 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4fd1c7c1525c89ab98648803da621fe8f56b8d98e9f283e3d8fe87285fe283a9
-size 735
+#include "Il2CppError.h"
+
+namespace il2cpp
+{
+namespace utils
+{
+    Il2CppError::Il2CppError() : m_ErrorCode(NoError), m_Hr(0)
+    {
+    }
+
+    Il2CppError::Il2CppError(Il2CppErrorCode errorCode, const char* message) :
+        m_ErrorCode(errorCode), m_Message(message), m_Hr(0)
+    {
+    }
+
+    Il2CppError::Il2CppError(Il2CppErrorCode errorCode, il2cpp_hresult_t hr) :
+        m_ErrorCode(errorCode), m_Hr(hr)
+    {
+    }
+
+    Il2CppErrorCode Il2CppError::GetErrorCode() const
+    {
+        return m_ErrorCode;
+    }
+
+    std::string Il2CppError::GetErrorMessage() const
+    {
+        return m_Message;
+    }
+
+    il2cpp_hresult_t Il2CppError::GetHr() const
+    {
+        return m_Hr;
+    }
+} // namespace utils
+} // namespace il2cpp

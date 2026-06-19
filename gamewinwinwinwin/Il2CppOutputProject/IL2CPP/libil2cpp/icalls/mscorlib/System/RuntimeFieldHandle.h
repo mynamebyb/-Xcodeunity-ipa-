@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:53d7535eb7fa5dbd8552cfbf2aed59d9c9bc04e5c5b0cf35cfee0a79f7f9603e
-size 730
+#pragma once
+#include "il2cpp-object-internals.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+    class LIBIL2CPP_CODEGEN_API RuntimeFieldHandle
+    {
+    public:
+        static Il2CppObject* GetValueDirect(Il2CppObject* field, Il2CppReflectionRuntimeType* fieldType, void* pTypedRef, Il2CppReflectionRuntimeType* contextType);
+        static void SetValueDirect(Il2CppReflectionField* field, Il2CppObject* fieldType, Il2CppTypedRef* typedRef, Il2CppObject* value, Il2CppObject* contextType);
+        static void SetValueInternal(Il2CppReflectionField* fi, Il2CppObject* obj, Il2CppObject* value);
+    };
+} // namespace System
+} // namespace mscorlib
+} // namespace icalls
+} // namespace il2cpp

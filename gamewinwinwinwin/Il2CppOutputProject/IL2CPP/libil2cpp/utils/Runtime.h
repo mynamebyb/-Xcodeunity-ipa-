@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:586b84936f4f9ea03d70e4ccad26ec83321712de28c58575d92fb8460aabd1a2
-size 287
+#pragma once
+
+#include <string>
+
+namespace il2cpp
+{
+namespace utils
+{
+    class LIBIL2CPP_CODEGEN_API Runtime
+    {
+    public:
+        static NORETURN void Abort();
+        static void SetDataDir(const char *path);
+        static std::string GetDataDir();
+    };
+} // utils
+} // il2cpp

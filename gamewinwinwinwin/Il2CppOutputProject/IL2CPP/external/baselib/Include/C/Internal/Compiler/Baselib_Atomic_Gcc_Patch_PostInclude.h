@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:228e49b930c1fb78101705e76282f15becf4da06b3e3c9035db183b144e2d7e6
-size 1192
+#pragma once
+
+#if PLATFORM_USE_GCC_ATOMIC_CMPXCHG128_PATCH
+
+#undef detail_GCC_CMP_XCHG_WEAK_128
+#undef detail_GCC_CMP_XCHG_WEAK_128_relaxed_relaxed
+#undef detail_GCC_CMP_XCHG_WEAK_128_acquire_relaxed
+#undef detail_GCC_CMP_XCHG_WEAK_128_acquire_acquire
+#undef detail_GCC_CMP_XCHG_WEAK_128_release_relaxed
+#undef detail_GCC_CMP_XCHG_WEAK_128_acq_rel_relaxed
+#undef detail_GCC_CMP_XCHG_WEAK_128_acq_rel_acquire
+#undef detail_GCC_CMP_XCHG_WEAK_128_seq_cst_relaxed
+#undef detail_GCC_CMP_XCHG_WEAK_128_seq_cst_acquire
+#undef detail_GCC_CMP_XCHG_WEAK_128_seq_cst_seq_cst
+
+#undef detail_GCC_CMP_XCHG_STRONG_128
+#undef detail_GCC_CMP_XCHG_STRONG_128_relaxed_relaxed
+#undef detail_GCC_CMP_XCHG_STRONG_128_acquire_relaxed
+#undef detail_GCC_CMP_XCHG_STRONG_128_acquire_acquire
+#undef detail_GCC_CMP_XCHG_STRONG_128_release_relaxed
+#undef detail_GCC_CMP_XCHG_STRONG_128_acq_rel_relaxed
+#undef detail_GCC_CMP_XCHG_STRONG_128_acq_rel_acquire
+#undef detail_GCC_CMP_XCHG_STRONG_128_seq_cst_relaxed
+#undef detail_GCC_CMP_XCHG_STRONG_128_seq_cst_acquire
+#undef detail_GCC_CMP_XCHG_STRONG_128_seq_cst_seq_cst
+
+#undef detail_GCC_CMP_XCHG_128_WEAK_QNX_PATCH
+#undef detail_GCC_CMP_XCHG_128_STRONG_QNX_PATCH
+
+#endif

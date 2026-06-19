@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fdf0e64750dbc46a99db14c60e227456ed3bcafbccd68b7e8237ce9e9cd97bee
-size 224
+#pragma once
+
+#include "il2cpp-config.h"
+#include "il2cpp-object-internals.h"
+#include "il2cpp-class-internals.h"
+
+#if defined(_MSC_VER)
+#include <intrin.h>
+#endif
+
+#include <string.h>
+#include <stdio.h>
+#include <assert.h>

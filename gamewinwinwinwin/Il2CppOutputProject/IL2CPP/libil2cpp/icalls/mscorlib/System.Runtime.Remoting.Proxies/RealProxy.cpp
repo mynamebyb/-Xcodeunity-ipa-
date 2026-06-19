@@ -1,3 +1,36 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:41bd388f3df93c6dcd2be146c5233cd242d3b691783cceb0554f26685804e30c
-size 810
+#include "il2cpp-config.h"
+#include "icalls/mscorlib/System.Runtime.Remoting.Proxies/RealProxy.h"
+#include "vm/Exception.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+namespace Runtime
+{
+namespace Remoting
+{
+namespace Proxies
+{
+    Il2CppObject* RealProxy::InternalGetTransparentProxy(Il2CppObject*, Il2CppString*)
+    {
+        NOT_SUPPORTED_REMOTING(RealProxy::InternalGetTransparentProxy);
+        return NULL;
+    }
+
+    Il2CppReflectionType* RealProxy::InternalGetProxyType(Il2CppObject *)
+    {
+        NOT_SUPPORTED_REMOTING(RealProxy::InternalGetProxyType);
+        return NULL;
+    }
+} /* namespace Proxies */
+} /* namespace Remoting */
+} /* namespace Runtime */
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

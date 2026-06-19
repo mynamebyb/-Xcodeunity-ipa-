@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8ceb2fb2d192801c0cb8fdbfb943a111ee0a573f26b208a784ece7f667bf2f47
-size 360
+#pragma once
+
+enum { Baselib_SystemSemaphore_PlatformSize = 32 }; // sem_t; 32 bytes
+
+#define MAX_PATH PATH_MAX
+
+#ifndef EXPORTED_SYMBOL
+    #define EXPORTED_SYMBOL __attribute__((visibility("default")))
+#endif
+#ifndef IMPORTED_SYMBOL
+    #define IMPORTED_SYMBOL
+#endif
+
+#ifndef PLATFORM_FUTEX_NATIVE_SUPPORT
+    #define PLATFORM_FUTEX_NATIVE_SUPPORT 1
+#endif

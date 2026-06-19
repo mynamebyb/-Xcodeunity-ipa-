@@ -1,3 +1,45 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bdb50931c9c4570a8a4b6a7fac40ec55925f368fc88610ea69649367aa1e8cd7
-size 1101
+#include "os/c-api/il2cpp-config-platforms.h"
+#if IL2CPP_THREADS_WIN32 && !RUNTIME_TINY
+
+#include "WindowsHeaders.h"
+#include "os/Win32/MutexImpl.h"
+#include "ConditionVariableImpl.h"
+#include "WindowsHelpers.h"
+
+namespace il2cpp
+{
+namespace os
+{
+    ConditionVariableImpl::ConditionVariableImpl()
+    {
+        ::InitializeConditionVariable(&m_ConditionVariable);
+    }
+
+    ConditionVariableImpl::~ConditionVariableImpl()
+    {
+        /* Beauty of win32 API: do not destroy it */
+    }
+
+    int ConditionVariableImpl::Wait(FastMutexImpl* lock)
+    {
+        return ::SleepConditionVariableCS(&m_ConditionVariable, lock->GetOSHandle(), INFINITE) ? 0 : 1;
+    }
+
+    int ConditionVariableImpl::TimedWait(FastMutexImpl* lock, uint32_t timeout_ms)
+    {
+        return ::SleepConditionVariableCS(&m_ConditionVariable, lock->GetOSHandle(), timeout_ms) ? 0 : 1;
+    }
+
+    void ConditionVariableImpl::Broadcast()
+    {
+        ::WakeAllConditionVariable(&m_ConditionVariable);
+    }
+
+    void ConditionVariableImpl::Signal()
+    {
+        ::WakeConditionVariable(&m_ConditionVariable);
+    }
+}
+}
+
+#endif

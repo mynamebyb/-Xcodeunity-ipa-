@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2dfd32c1882fddb9cd718919999ab0a2d1579559080364da971eeb011f0fa649
-size 467
+{
+  "runtimeOptions": {
+    "tfm": "net6.0",
+    "includedFrameworks": [
+      {
+        "name": "Microsoft.NETCore.App",
+        "version": "6.0.18"
+      }
+    ],
+    "configProperties": {
+      "System.GC.Server": true,
+      "System.Globalization.Invariant": true,
+      "System.Globalization.PredefinedCulturesOnly": true,
+      "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
+      "System.Runtime.TieredCompilation.QuickJit": false
+    }
+  }
+}

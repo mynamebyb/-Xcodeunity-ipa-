@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c95918ca77897095a1cae0c819cd9d6d66cca03387e2483a36bc18a78efca896
-size 367
+#pragma once
+
+#include "il2cpp-object-internals.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+    class LIBIL2CPP_CODEGEN_API Type
+    {
+    public:
+        static Il2CppReflectionType* internal_from_handle(intptr_t ptr);
+    };
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

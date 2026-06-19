@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cb9bb38dbb4df200435f0ac2305cff4bc008056346b7e9e015d88707bf8f9485
-size 500
+/**
+ * \file
+ * Appdomain-related icalls.
+ * Copyright 2016 Microsoft
+ * Licensed under the MIT license. See LICENSE file in the project root for full license information.
+ */
+
+#ifndef __MONO_METADATA_APPDOMAIN_ICALLS_H__
+#define __MONO_METADATA_APPDOMAIN_ICALLS_H__
+
+#include <mono/metadata/appdomain.h>
+#include <mono/metadata/handle.h>
+#include <mono/metadata/object-internals.h>
+#include <mono/metadata/icalls.h>
+#include "reflection-internals.h"
+
+#endif /*__MONO_METADATA_APPDOMAIN_ICALLS_H__*/

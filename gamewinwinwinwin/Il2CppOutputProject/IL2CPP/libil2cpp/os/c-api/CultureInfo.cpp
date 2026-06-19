@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e6fbc0415b4c907e7e124e7abc7f52b5660cc7b8163b5eb3768887629fdb36f8
-size 447
+#include "os/c-api/il2cpp-config-platforms.h"
+
+#if IL2CPP_TINY
+
+#include "os/Locale.h"
+#include "os/MarshalAlloc.h"
+#include <cstring>
+
+extern "C"
+{
+    char* STDCALL UnityPalGetCurrentLocaleName()
+    {
+        auto locale = il2cpp::os::Locale::GetLocale();
+        char* allocatedLocal = (char*)il2cpp::os::MarshalAlloc::Allocate(locale.size() + 1);
+        strcpy(allocatedLocal, locale.c_str());
+        return allocatedLocal;
+    }
+}
+
+#endif

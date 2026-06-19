@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a05034f6ed90b8e53d04e752485bbddf2d1232364a6e3b6a4012933e3a1fd176
-size 546
+#pragma once
+
+#include <stdint.h>
+#include "il2cpp-config.h"
+
+struct Il2CppObject;
+struct Il2CppReflectionType;
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+    class LIBIL2CPP_CODEGEN_API Object
+    {
+    public:
+        static int InternalGetHashCode(Il2CppObject* obj);
+        static Il2CppObject* MemberwiseClone(Il2CppObject* obj);
+        static Il2CppReflectionType* GetType(Il2CppObject* obj);
+    };
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

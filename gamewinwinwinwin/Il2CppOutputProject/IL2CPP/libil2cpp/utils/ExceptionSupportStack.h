@@ -1,3 +1,51 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ffc59d06b739587d6023e257065c58d1485e309708c1ff928ea845cfd85ef95c
-size 1088
+#pragma once
+
+#include <stdint.h>
+
+namespace il2cpp
+{
+namespace utils
+{
+    template<typename T, int Size>
+    class ExceptionSupportStack
+    {
+    public:
+        ExceptionSupportStack() : m_count(0)
+        {
+        }
+
+        void push(T value)
+        {
+            // This function is rather unsafe. We don't track the size of storage,
+            // and assume the caller will not push more values than it has allocated.
+            // This function should only be used from generated code, where
+            // we control the calls to this function.
+            IL2CPP_ASSERT(m_count < Size);
+            m_Storage[m_count] = value;
+            m_count++;
+        }
+
+        T pop()
+        {
+            IL2CPP_ASSERT(!empty());
+            m_count--;
+            return m_Storage[m_count];
+        }
+
+        T top() const
+        {
+            IL2CPP_ASSERT(!empty());
+            return m_Storage[m_count - 1];
+        }
+
+        bool empty() const
+        {
+            return m_count == 0;
+        }
+
+    private:
+        T m_Storage[Size];
+        int m_count;
+    };
+}
+}

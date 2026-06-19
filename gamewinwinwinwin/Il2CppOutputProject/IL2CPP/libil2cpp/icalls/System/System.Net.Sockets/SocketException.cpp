@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9794dd5cf347f35653390a79cfe2b4b791246840e7291d800a8eecff9225830c
-size 596
+#include "il2cpp-config.h"
+
+#include "icalls/System/System.Net.Sockets/SocketException.h"
+
+#include "os/Error.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace System
+{
+namespace System
+{
+namespace Net
+{
+namespace Sockets
+{
+    int32_t SocketException::WSAGetLastError_icall()
+    {
+        IL2CPP_NOT_IMPLEMENTED_ICALL_NO_ASSERT(SocketException::WSAGetLastError, "Ignore this for now");
+
+        return (int32_t)os::Error::GetLastError();
+    }
+} /* namespace Sockets */
+} /* namespace Net */
+} /* namespace System */
+} /* namespace System */
+} /* namespace icalls */
+} /* namespace il2cpp */

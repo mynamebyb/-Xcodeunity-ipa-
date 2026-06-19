@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:15c28fd58ecd2f309f696efd2f051468f552502a984ec100849da48c0b91e037
-size 218
+#pragma once
+
+#include "il2cpp-config.h"
+#include "Baselib.h"
+#include "Cpp/ReentrantLock.h"
+
+namespace il2cpp
+{
+namespace vm
+{
+    extern baselib::ReentrantLock g_MetadataLock;
+} // namespace vm
+} // namespace il2cpp

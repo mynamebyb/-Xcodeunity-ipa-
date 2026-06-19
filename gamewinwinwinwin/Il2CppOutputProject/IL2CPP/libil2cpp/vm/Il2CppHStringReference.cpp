@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f78476fc9d36c3028e5050db38313eeb10c8a640a5283c8a5f25aa1e3100cbdf
-size 417
+#include "il2cpp-config.h"
+#if !IL2CPP_TINY || IL2CPP_TINY_DEBUGGER
+#include <il2cpp-object-internals.h>
+#include "Il2CppHStringReference.h"
+#include "vm/WindowsRuntime.h"
+
+namespace il2cpp
+{
+namespace vm
+{
+    Il2CppHStringReference::Il2CppHStringReference(const utils::StringView<Il2CppNativeChar>& str)
+    {
+        il2cpp::vm::WindowsRuntime::CreateHStringReference(str, &m_Header, &m_String);
+    }
+}
+}
+
+#endif

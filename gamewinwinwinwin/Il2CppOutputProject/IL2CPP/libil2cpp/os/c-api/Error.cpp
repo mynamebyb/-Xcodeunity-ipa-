@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a54e8bfcfbaaaed2721a9e908072164e8acaf2554e53ce273ffbe090c20dcb36
-size 275
+#include "os/c-api/il2cpp-config-platforms.h"
+
+#if !RUNTIME_TINY
+
+#include "os/Error.h"
+#include "os/c-api/Error-c-api.h"
+
+extern "C"
+{
+    int32_t UnityPalSuccess(UnityPalErrorCode code)
+    {
+        return (int32_t)(code == il2cpp::os::kErrorCodeSuccess);
+    }
+}
+
+#endif

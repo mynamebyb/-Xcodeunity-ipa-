@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3f554da4ba95a30575853ab568196b50c612b53e228f14fabf0bad9b45c43b4e
-size 399
+/**
+ * \file
+ */
+
+#ifndef __UTILS_MONO_STRING_H__
+#define __UTILS_MONO_STRING_H__
+#include <glib.h>
+/*
+ * This definition is used to we remember later to implement this properly
+ *
+ * Currently we merely call into the ascii comparison, but we should be
+ * instead doing case folding and comparing the result.
+ */
+#define mono_utf8_strcasecmp g_ascii_strcasecmp
+
+#endif /* __UTILS_MONO_STRING_H__ */

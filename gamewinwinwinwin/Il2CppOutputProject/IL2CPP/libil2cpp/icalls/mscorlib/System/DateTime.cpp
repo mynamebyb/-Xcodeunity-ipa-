@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf6376fa9bed6b214681a303cc68985e5d9369ccc7dcd3e0247275fa129db16f
-size 386
+#include "il2cpp-config.h"
+#include "icalls/mscorlib/System/DateTime.h"
+#include "os/Time.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+    int64_t DateTime::GetSystemTimeAsFileTime()
+    {
+        return os::Time::GetSystemTimeAsFileTime();
+    }
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

@@ -1,3 +1,36 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8bb5e8e016bd105e22bb34b7e53dd008f3631af79f1f1a8f07bc824a6ad4a05e
-size 859
+#pragma once
+
+#include <stdint.h>
+#include "il2cpp-config.h"
+#include "il2cpp-object-internals.h"
+
+struct Il2CppObject;
+struct Il2CppDelegate;
+struct Il2CppReflectionType;
+struct Il2CppReflectionMethod;
+struct Il2CppReflectionField;
+struct Il2CppArray;
+struct Il2CppException;
+struct Il2CppReflectionModule;
+struct Il2CppAssembly;
+struct Il2CppAssemblyName;
+struct Il2CppAppDomain;
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+    class LIBIL2CPP_CODEGEN_API TypedReference
+    {
+    public:
+        static Il2CppObject* InternalToObject(Il2CppTypedRef* value);
+        static void InternalMakeTypedReference(Il2CppTypedRef* res, Il2CppObject* target, Il2CppArray* flds, Il2CppReflectionRuntimeType* lastFieldType);
+    };
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

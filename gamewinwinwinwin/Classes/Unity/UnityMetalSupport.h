@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4359f13f208f9012ec27a83983d3cc4a0216235296de7f3e687824597d15339a
-size 430
+#pragma once
+
+// we are still allowing to build with older sdk and run on simulator without metal support (pre MacOS 10.15)
+// it is expected to substitute Metal.h so we assume this is used only with objc
+
+#ifdef __cplusplus
+extern "C" typedef MTLDeviceRef (*MTLCreateSystemDefaultDeviceFunc)();
+#else
+typedef MTLDeviceRef (*MTLCreateSystemDefaultDeviceFunc)();
+#endif
+
+#import <Metal/Metal.h>
+#import <QuartzCore/CAMetalLayer.h>

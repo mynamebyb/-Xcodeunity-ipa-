@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ac0e43fb0f4362401ca5ea71fb817d06c5fd73852a2cbd6dd91624a52f51207b
-size 323
+/**
+ * \file
+ */
+
+#ifndef __MONO_ATTACH_H__
+#define __MONO_ATTACH_H__
+
+#include <glib.h>
+#include <mono/utils/mono-compiler.h>
+
+void
+mono_attach_parse_options (char *options);
+
+void
+mono_attach_init (void);
+
+gboolean
+mono_attach_start (void);
+
+void
+mono_attach_maybe_start (void);
+
+void
+mono_attach_cleanup (void);
+
+#endif

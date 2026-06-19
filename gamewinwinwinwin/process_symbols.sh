@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:93129d51fba7b0e902af7c880549638bdd43f8e38b4474208706baa971ae7244
-size 615
+#!/bin/sh
+
+#  process_symbols
+#
+#  Copyright (c) 2015 Unity Technologies. All rights reserved.
+
+if [ "$(arch)" == "arm64" ]; then
+  usymtool="usymtoolarm64"
+else
+  usymtool="usymtool"
+fi
+
+if [ "${SYNCHRONOUS_SYMBOL_PROCESSING}" = "TRUE" ]; then
+    "$PROJECT_DIR/$usymtool" -symbolPath "$DWARF_DSYM_FOLDER_PATH/$DWARF_DSYM_FILE_NAME" -il2cppOutputPath "$PROJECT_DIR/Il2CppOutputProject/Source/il2cppOutput/"
+else
+    nohup "$PROJECT_DIR/$usymtool" -symbolPath "$DWARF_DSYM_FOLDER_PATH/$DWARF_DSYM_FILE_NAME" -il2cppOutputPath "$PROJECT_DIR/Il2CppOutputProject/Source/il2cppOutput/" > /dev/null 2>&1 &
+    disown
+fi

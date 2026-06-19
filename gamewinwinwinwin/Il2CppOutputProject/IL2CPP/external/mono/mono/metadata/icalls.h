@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0bd3614fce1e1b93f4aa3854118fe0cff19e0227103eb6b320d17548a81a9f76
-size 417
+/**
+ * \file
+ */
+
+#ifndef __MONO_METADATA_ICALLS_H__
+#define __MONO_METADATA_ICALLS_H__
+
+#include <mono/utils/mono-publib.h>
+
+#ifdef ENABLE_ICALL_EXPORT
+#define ICALL_EXPORT MONO_API
+#define ICALL_EXTERN_C G_EXTERN_C
+#else
+/* Can't be static as icall.c defines icalls referenced by icall-tables.c */
+#define ICALL_EXPORT /* nothing */
+#define ICALL_EXTERN_C /* nothing */
+#endif
+
+#endif // __MONO_METADATA_ICALLS_H__

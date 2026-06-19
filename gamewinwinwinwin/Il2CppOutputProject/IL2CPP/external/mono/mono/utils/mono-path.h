@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3be2f5b9d4555b77b444ea05a68a10357f698664f5aac24eaf510ae8071a6233
-size 353
+/**
+ * \file
+ */
+
+#ifndef __MONO_PATH_H
+#define __MONO_PATH_H
+
+#include <glib.h>
+#include <mono/utils/mono-publib.h>
+
+MONO_API gchar *mono_path_resolve_symlinks (const char *path);
+MONO_API gchar *mono_path_canonicalize (const char *path);
+gboolean mono_path_filename_in_basedir (const char *filename, const char *basedir);
+
+#endif /* __MONO_PATH_H */
+

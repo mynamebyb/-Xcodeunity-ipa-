@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3bb1a2b618d431ad10370dc8779ee47d0491f26b654043c06c5d182c33f2f610
-size 495
+﻿#include "pch-c.h"
+#ifndef _MSC_VER
+# include <alloca.h>
+#else
+# include <malloc.h>
+#endif
+
+
+#include "codegen/il2cpp-codegen-metadata.h"
+
+
+
+
+
+IL2CPP_EXTERN_C const Il2CppCodeGenModule g_Unity_RenderPipeline_Universal_ShaderLibrary_CodeGenModule;
+const Il2CppCodeGenModule g_Unity_RenderPipeline_Universal_ShaderLibrary_CodeGenModule = 
+{
+	"Unity.RenderPipeline.Universal.ShaderLibrary.dll",
+	0,
+	NULL,
+	0,
+	NULL,
+	NULL,
+	0,
+	NULL,
+	0,
+	NULL,
+	0,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+};

@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bea1ad5b1e6304e1533b6b3b82050aee7becb45dc7d8ebadb58b9414630c95e8
-size 683
+#include "leak_detector.h"
+
+int main(void) {
+    int *p[10];
+    int i;
+    GC_set_find_leak(1); /* for new collect versions not compiled       */
+                         /* with -DFIND_LEAK.                           */
+
+    GC_INIT();  /* Needed if thread-local allocation is enabled.        */
+                /* FIXME: This is not ideal.                            */
+    for (i = 0; i < 10; ++i) {
+        p[i] = (int*)malloc(sizeof(int)+i);
+    }
+    CHECK_LEAKS();
+    for (i = 1; i < 10; ++i) {
+        free(p[i]);
+    }
+    for (i = 0; i < 9; ++i) {
+        p[i] = (int*)malloc(sizeof(int)+i);
+    }
+    CHECK_LEAKS();
+    CHECK_LEAKS();
+    CHECK_LEAKS();
+    return 0;
+}

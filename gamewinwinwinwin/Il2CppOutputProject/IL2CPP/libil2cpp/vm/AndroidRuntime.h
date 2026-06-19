@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:45caeae803feb4c4ce168b52fad9344865e18fff1065148e533e886298c3bc56
-size 350
+#pragma once
+
+#include "il2cpp-config.h"
+
+namespace il2cpp
+{
+namespace vm
+{
+    class LIBIL2CPP_CODEGEN_API AndroidRuntime
+    {
+    public:
+        static void SetNetworkUpStateFunc(Il2CppAndroidUpStateFunc func);
+        static bool GetNetworkInterfaceUpState(Il2CppString* ifName, bool* isUp);
+    };
+} /* namespace vm */
+} /* namespace il2cpp */

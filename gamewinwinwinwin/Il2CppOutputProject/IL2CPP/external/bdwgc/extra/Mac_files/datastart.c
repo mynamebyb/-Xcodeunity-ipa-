@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d8241e58a8884913d2ef4ee30cd4108162541cc8cff18bc08d9c6c4de63232b5
-size 132
+/*
+    datastart.c
+
+    A hack to get the extent of global data for the Macintosh.
+
+    by Patrick C. Beard.
+ */
+
+long __datastart;

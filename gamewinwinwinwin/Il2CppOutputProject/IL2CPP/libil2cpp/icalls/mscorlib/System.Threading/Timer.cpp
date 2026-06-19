@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7e484f449f82f9d848645bd4d368f0927b4b18cb60859afa71973a6d3aeac03c
-size 393
+#include "il2cpp-config.h"
+#include "Timer.h"
+#include "os/Time.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+namespace Threading
+{
+    int64_t Timer::GetTimeMonotonic()
+    {
+        return os::Time::GetTicks100NanosecondsMonotonic();
+    }
+} // namespace Threading
+} // namespace System
+} // namespace mscorlib
+} // namespace icalls
+} // namespace il2cpp

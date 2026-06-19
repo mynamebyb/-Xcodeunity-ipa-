@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b3439290ffa0669e2d380fe1abc75e463dae9b0d48fc75859665195f8d9fa649
-size 609
+#pragma once
+#include "il2cpp-config.h"
+#include <string>
+struct Il2CppException;
+
+#include "Baselib.h"
+#include "C/Baselib_ErrorState.h"
+
+namespace il2cpp
+{
+namespace utils
+{
+    class LIBIL2CPP_CODEGEN_API Exception
+    {
+    public:
+        static std::string FormatException(const Il2CppException* ex);
+        static std::string FormatStackTrace(const Il2CppException* ex);
+        static std::string FormatInvalidCastException(const Il2CppClass* fromType, const Il2CppClass* toType);
+        static std::string FormatBaselibErrorState(const Baselib_ErrorState& errorState);
+    };
+} // utils
+} // utils

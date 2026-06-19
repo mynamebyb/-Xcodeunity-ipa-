@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:aea5de5f090f7b2a5f75ad4879dcb726ad4c2d4b99ba55a059c09a45fe76d7ec
-size 610
+#include "AndroidRuntime.h"
+#include "il2cpp-config.h"
+#include "utils/StringUtils.h"
+
+namespace il2cpp
+{
+namespace vm
+{
+    static Il2CppAndroidUpStateFunc s_func = NULL;
+
+    void AndroidRuntime::SetNetworkUpStateFunc(Il2CppAndroidUpStateFunc func)
+    {
+        s_func = func;
+    }
+
+    bool AndroidRuntime::GetNetworkInterfaceUpState(Il2CppString* ifName, bool* isUp)
+    {
+        if (s_func)
+        {
+            std::string name = utils::StringUtils::Utf16ToUtf8(utils::StringUtils::GetChars(ifName));
+            return s_func(name.c_str(), (uint8_t*)isUp);
+        }
+        return false;
+    }
+}
+}

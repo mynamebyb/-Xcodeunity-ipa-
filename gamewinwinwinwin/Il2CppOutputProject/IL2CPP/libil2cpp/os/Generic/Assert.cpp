@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2d249bc5cc86c28be18ffb3084ca95ae1729c52a7237ec5fc806267934855ee4
-size 347
+#include "os/Assert.h"
+
+#if IL2CPP_DEBUG
+
+#if IL2CPP_USE_GENERIC_ASSERT
+
+#include <cstdio>
+#include <cstdlib>
+
+void il2cpp_assert(const char* assertion, const char* file, unsigned int line)
+{
+    printf("Assertion failed: %s, file %s, line %u\n", assertion, file, line);
+    abort();
+}
+
+#endif // IL2CPP_USE_GENERIC_ASSERT
+
+#endif // IL2CPP_DEBUG

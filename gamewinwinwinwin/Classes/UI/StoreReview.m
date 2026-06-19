@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:35db539f1f97aefa7f4d66044bce676ed114884c5b9328cedaf7a6a72c2613be
-size 587
+#if PLATFORM_IOS || PLATFORM_VISIONOS
+
+// This definition is here only for compiler to know about selector requestReview
+@interface UnityStoreReviewController
++ requestReview;
+@end
+
+bool UnityRequestStoreReview()
+{
+    Class classSKStoreReviewController = NSClassFromString(@"SKStoreReviewController");
+    if (!classSKStoreReviewController || ![classSKStoreReviewController respondsToSelector: @selector(requestReview)])
+        return false;
+
+    [classSKStoreReviewController performSelector: @selector(requestReview)];
+    return true;
+}
+
+#endif // PLATFORM_IOS || PLATFORM_VISIONOS

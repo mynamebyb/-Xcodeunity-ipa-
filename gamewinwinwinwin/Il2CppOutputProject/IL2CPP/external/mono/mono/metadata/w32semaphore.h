@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0d331f79ace44af1b18a179179dda40b138be09407bb6473a633349bf9dae035
-size 476
+/**
+ * \file
+ */
+
+#ifndef _MONO_METADATA_W32SEMAPHORE_H_
+#define _MONO_METADATA_W32SEMAPHORE_H_
+
+#include <config.h>
+#include <glib.h>
+#include "object.h"
+#include "w32handle-namespace.h"
+#include <mono/metadata/icalls.h>
+
+void
+mono_w32semaphore_init (void);
+
+typedef struct MonoW32HandleNamedSemaphore MonoW32HandleNamedSemaphore;
+
+MonoW32HandleNamespace*
+mono_w32semaphore_get_namespace (MonoW32HandleNamedSemaphore *semaphore);
+
+#endif /* _MONO_METADATA_W32SEMAPHORE_H_ */

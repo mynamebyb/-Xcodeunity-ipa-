@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:986feed144d51680fec6b73360724308b560a71e2d240834cf0b0d2743b9e7d2
-size 726
+#pragma once
+
+#if !RUINTIME_TINY
+#include "vm/MetadataCache.h"
+#endif
+
+#include "vm/StackTrace.h"
+#include "vm-utils/MethodDefinitionKey.h"
+#include "vm-utils/VmMethod.h"
+
+#include <stdint.h>
+#include <vector>
+
+namespace il2cpp
+{
+namespace utils
+{
+    class NativeSymbol
+    {
+    public:
+#if (IL2CPP_ENABLE_NATIVE_STACKTRACES && (!RUNTIME_TINY || IL2CPP_TINY_DEBUG_METADATA))
+        static void RegisterMethods(const std::vector<MethodDefinitionKey>& managedMethods);
+        static const VmMethod* GetMethodFromNativeSymbol(Il2CppMethodPointer nativeMethod);
+        static bool GetMethodDebugInfo(const MethodInfo* method, Il2CppMethodDebugInfo* methodDebugInfo);
+#endif
+    };
+} /* namespace vm */
+} /* namespace mono */

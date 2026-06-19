@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6f9cb7897acf5b1c0135979758b6b9c7bbb2782033151f733c1c6526f2f54b54
-size 777
+#include "il2cpp-config.h"
+#include "Debugger.h"
+#include "vm-utils/Debugger.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+namespace Diagnostics
+{
+    bool Debugger::IsAttached_internal()
+    {
+        return utils::Debugger::GetIsDebuggerAttached();
+    }
+
+    bool Debugger::IsLogging()
+    {
+#if IL2CPP_MONO_DEBUGGER
+        return utils::Debugger::IsLoggingEnabled();
+#else
+        return false;
+#endif
+    }
+
+    void Debugger::Log_icall(int32_t level, Il2CppString** category, Il2CppString** message)
+    {
+#if IL2CPP_MONO_DEBUGGER
+        utils::Debugger::Log(level, *category, *message);
+#endif
+    }
+} /* namespace Diagnostics */
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

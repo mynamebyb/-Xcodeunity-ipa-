@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf7f407df2834011d26908842a6fb9185e93bfc5e7887d39f8210726bdd8cb2e
-size 374
+#pragma once
+
+#include <stdint.h>
+
+#if defined(__cplusplus)
+#include "os/Thread.h"
+
+typedef il2cpp::os::Thread::ThreadId UnityPalThreadId;
+
+#else
+
+typedef size_t UnityPalThreadId;
+
+#endif //__cplusplus
+
+#if defined(__cplusplus)
+extern "C"
+{
+#endif
+
+void UnityPalSleep(uint32_t milliseconds);
+UnityPalThreadId UnityPalGetCurrentThreadId();
+
+#if defined(__cplusplus)
+}
+#endif

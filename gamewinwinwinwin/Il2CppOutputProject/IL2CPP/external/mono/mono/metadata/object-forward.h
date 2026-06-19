@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e57bd814b4423e552b332543d43b616ab12f4d4e09f38b9a1dbca615c0661c45
-size 647
+/**
+ * \file
+ *
+ * Forward declarations of opaque types, and typedefs thereof.
+ *
+ */
+
+#ifndef __MONO_OBJECT_FORWARD_H__
+#define __MONO_OBJECT_FORWARD_H__
+
+#include <mono/utils/mono-publib.h>
+
+typedef struct _MonoClass MonoClass;
+typedef struct _MonoImage MonoImage;
+typedef struct _MonoMethod MonoMethod;
+
+typedef struct _MonoObject MONO_RT_MANAGED_ATTR MonoObject;
+typedef struct _MonoException MONO_RT_MANAGED_ATTR MonoException;
+typedef struct _MonoReflectionAssembly MONO_RT_MANAGED_ATTR MonoReflectionAssembly;
+typedef struct _MonoReflectionTypeBuilder MONO_RT_MANAGED_ATTR MonoReflectionTypeBuilder;
+
+#endif /* __MONO_OBJECT_FORWARD_H__ */

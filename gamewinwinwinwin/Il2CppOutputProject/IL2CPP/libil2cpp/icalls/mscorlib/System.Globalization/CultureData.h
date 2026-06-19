@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8e60e41339a620863220e9abc3534e341a12c39c9ae0d7129875c04d40cb736f
-size 556
+#pragma once
+
+struct NumberFormatEntryManaged;
+struct Il2CppCultureData;
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+namespace Globalization
+{
+    class LIBIL2CPP_CODEGEN_API CultureData
+    {
+    public:
+        static const void* fill_number_data(int32_t number_index, NumberFormatEntryManaged* managed);
+        static void fill_culture_data(Il2CppCultureData* _this, int32_t datetimeIndex);
+    };
+} // namespace Globalization
+} // namespace System
+} // namespace mscorlib
+} // namespace icalls
+} // namespace il2cpp

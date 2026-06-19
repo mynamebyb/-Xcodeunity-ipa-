@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a5c6c53cf6b4bce639bdd2429bcaa59246cb4ba5d60c26edadafadcace5d2dc0
-size 360
+/**
+ * \file
+ */
+
+#ifndef __MONO_BSEARCH_H__
+#define __MONO_BSEARCH_H__
+
+#include <stdlib.h>
+
+#include "mono/utils/mono-compiler.h"
+
+typedef int (* BinarySearchComparer) (const void *key, const void *member);
+
+void *
+mono_binary_search (
+	const void *key,
+	const void *array,
+	size_t array_length,
+	size_t member_size,
+	BinarySearchComparer comparer);
+
+#endif

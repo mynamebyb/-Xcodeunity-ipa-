@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d6f7df539f85f85e8bd3f30146fe38d62c429b841bf8a344a1f0f37e17ed7b56
-size 552
+#pragma once
+
+#include "../Atomic.h"
+#include "../Semaphore.h"
+
+namespace baselib
+{
+    BASELIB_CPP_INTERFACE
+    {
+        namespace detail
+        {
+            struct ConditionVariableData
+            {
+                Semaphore           semaphore;
+                atomic<uint32_t>    waiters;
+
+                ConditionVariableData() : semaphore(), waiters(0) {}
+
+                inline bool HasWaiters() const
+                {
+                    return waiters.load(memory_order_acquire) > 0;
+                }
+            };
+        }
+    }
+}

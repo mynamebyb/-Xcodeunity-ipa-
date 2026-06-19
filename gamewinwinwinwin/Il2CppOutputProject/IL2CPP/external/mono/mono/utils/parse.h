@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:70d486dc1a1a6cffe9c4cc8ee2d5975023edc790e424e9a427e0ff6002d9b24e
-size 349
+/**
+ * \file
+ * Parsing for GC options.
+ *
+ * Licensed under the MIT license. See LICENSE file in the project root for full license information.
+ */
+
+#ifndef __MONO_UTILS_PARSE_H__
+#define __MONO_UTILS_PARSE_H__
+
+#include <glib.h>
+#include <stdlib.h>
+
+gboolean mono_gc_parse_environment_string_extract_number (const char *str, size_t *out);
+
+#endif

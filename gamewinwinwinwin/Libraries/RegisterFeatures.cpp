@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ca943edef3ff3b58c01df297e2e43659847278f27b3348e094130fddb0d35998
-size 243
+
+#include "RegisterFeatures.h"
+
+extern "C" void UnityEnableGyroscope(bool value);
+extern "C" void UnityEnableStylusTouch(bool value);
+
+void RegisterFeatures()
+{
+    UnityEnableGyroscope(false);
+    UnityEnableStylusTouch(true);
+}
+

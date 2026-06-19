@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:21a30438322fca01328b51d2db9b73497e0a651707c15c7c1dd56db8ad44be48
-size 324
+/**
+ * \file
+ * Copyright 2016 Microsoft
+ * Licensed under the MIT license. See LICENSE file in the project root for full license information.
+ */
+#ifndef _MONO_METADATA_W32FILE_INTERNALS_H_
+#define _MONO_METADATA_W32FILE_INTERNALS_H_
+
+#include <config.h>
+#include <glib.h>
+
+#endif /* _MONO_METADATA_W32FILE_INTERNALS_H_ */

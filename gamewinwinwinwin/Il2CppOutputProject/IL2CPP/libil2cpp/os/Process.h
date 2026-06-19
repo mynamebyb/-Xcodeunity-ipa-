@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:15720ecb0b9c386b95d9c819d5dece9ab49d6e012129766acdc5b90d52d3d9c1
-size 503
+#pragma once
+
+#include "utils/Expected.h"
+
+#include <stdint.h>
+#include <string>
+
+namespace il2cpp
+{
+namespace os
+{
+    struct ProcessHandle;
+
+    class Process
+    {
+    public:
+        static int GetCurrentProcessId();
+        static utils::Expected<ProcessHandle*> GetProcess(int processId);
+        static void FreeProcess(ProcessHandle* handle);
+        static utils::Expected<std::string> GetProcessName(ProcessHandle* handle);
+        static intptr_t GetMainWindowHandle(int32_t pid);
+    };
+}
+}

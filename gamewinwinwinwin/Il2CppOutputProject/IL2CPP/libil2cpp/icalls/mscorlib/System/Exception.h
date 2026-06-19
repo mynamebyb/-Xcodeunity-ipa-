@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e078c9f6858d97fc1cb563d7719c829961bf28ba20eab2c6c0bbedd86eb668bd
-size 323
+#pragma once
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+    class LIBIL2CPP_CODEGEN_API Exception
+    {
+    public:
+        static void ReportUnhandledException(Il2CppException* exception);
+    };
+} // namespace System
+} // namespace mscorlib
+} // namespace icalls
+} // namespace il2cpp

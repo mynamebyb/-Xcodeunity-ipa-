@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:25e6f2706463b46cf4fc509e35a9751f692700e672d4a7e1b7251b35254e036f
-size 346
+/**
+ * \file
+ */
+
+#ifndef __MONO_UTILS_MMAP_WINDOWS_H__
+#define __MONO_UTILS_MMAP_WINDOWS_H__
+
+#include <config.h>
+#include <glib.h>
+
+#ifdef HOST_WIN32
+#include "mono/utils/mono-mmap.h"
+#include "mono/utils/mono-mmap-internals.h"
+
+int
+mono_mmap_win_prot_from_flags (int flags);
+#endif /* HOST_WIN32 */
+#endif /* __MONO_UTILS_MMAP_WINDOWS_H__ */
+

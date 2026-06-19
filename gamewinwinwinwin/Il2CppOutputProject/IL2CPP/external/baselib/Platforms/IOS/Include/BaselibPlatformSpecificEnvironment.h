@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cb5195d9f0687a49a599cab07748437d0623319a56019c05bdfc7b72ceab7ad5
-size 527
+#pragma once
+
+/*
+namespace detail
+{
+    struct Semaphore
+    {
+        dispatch_semaphore_t handle;
+        baselib::atomic<int32_t> counter;
+    };
+}
+*/
+enum { Baselib_SystemSemaphore_PlatformSize = 16 }; // Size should match size of struct above from darwin api implementation
+
+#ifndef EXPORTED_SYMBOL
+    #define EXPORTED_SYMBOL __attribute__((visibility("default")))
+#endif
+#ifndef IMPORTED_SYMBOL
+    #define IMPORTED_SYMBOL
+#endif
+
+#ifndef PLATFORM_FUTEX_NATIVE_SUPPORT
+    #define PLATFORM_FUTEX_NATIVE_SUPPORT 0
+#endif

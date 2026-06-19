@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:06d123037461c5c874137b09fb5187fc5a3623fad3fc654a74d869bb25922a37
-size 605
+/**
+ * \file
+ */
+
+#ifndef _MONO_METADATA_W32HANDLE_NAMESPACE_H_
+#define _MONO_METADATA_W32HANDLE_NAMESPACE_H_
+
+#include <config.h>
+#include <glib.h>
+
+#include "mono/metadata/w32handle.h"
+
+#define MONO_W32HANDLE_NAMESPACE_MAX_PATH 260
+
+typedef struct {
+	gchar name [MONO_W32HANDLE_NAMESPACE_MAX_PATH + 1];
+} MonoW32HandleNamespace;
+
+void
+mono_w32handle_namespace_init (void);
+
+void
+mono_w32handle_namespace_lock (void);
+
+void
+mono_w32handle_namespace_unlock (void);
+
+gpointer
+mono_w32handle_namespace_search_handle (MonoW32Type type, const gchar *name);
+
+#endif /* _MONO_METADATA_W32HANDLE_NAMESPACE_H_ */

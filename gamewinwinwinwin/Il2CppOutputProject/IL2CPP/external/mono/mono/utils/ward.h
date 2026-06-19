@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:42c453ea95c01d03064b3be916bd2d33bbbf57d67ec8be2f8e304e44030a5898
-size 521
+#ifndef WARD_H
+#define WARD_H
+
+/*
+ * Ward is a static analysis tool that can be used to check for the presense of
+ * a certain class of bugs in C code.
+ *
+ * See https://github.com/evincarofautumn/Ward#annotating-your-code for the Ward
+ * permission annotations syntax.
+ *
+ * The Mono permissions are defined in
+ * https://github.com/evincarofautumn/Ward/blob/prod/mono.config
+ */
+#if defined(__WARD__)
+#define MONO_PERMIT(...) __attribute__ ((ward (__VA_ARGS__)))
+#else
+#define MONO_PERMIT(...) /*empty*/
+#endif
+
+#endif

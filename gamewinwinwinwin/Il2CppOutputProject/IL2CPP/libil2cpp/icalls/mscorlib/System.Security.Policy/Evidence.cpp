@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:459305146d523c0bc52d45f1afd453151c9f928bdf422c488d9b8bac5b2dc73e
-size 588
+#include "il2cpp-config.h"
+
+#include "icalls/mscorlib/System.Security.Policy/Evidence.h"
+#include "vm/Exception.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+namespace Security
+{
+namespace Policy
+{
+    bool Evidence::IsAuthenticodePresent(Il2CppAssembly* a)
+    {
+        NOT_SUPPORTED_IL2CPP(Evidence::IsAuthenticodePresent, "This icall is not supported by il2cpp.");
+
+        return false;
+    }
+} /* namespace Policy */
+} /* namespace Security */
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2db867462bf6b8641b93ce04ffd8d45d686d584cb98bf1a5e43f5efbdd08150b
-size 323
+#pragma once
+
+#if IL2CPP_THREADS_WIN32
+
+#include "ReaderWriterLockImpl.h"
+
+namespace il2cpp
+{
+namespace os
+{
+    class FastReaderReaderWriterLockImpl : public ReaderWriterLockImpl
+    {
+        // Windows ReaderWriterLockImpl uses the Win32 SlimReaderWriterLock
+        // which is fast for our purposes
+    };
+}
+}
+
+#endif

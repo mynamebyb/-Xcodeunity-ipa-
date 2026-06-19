@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0e8346b4d91805d0e12ac84243d8754749b1588dd98969d2de24d536b257d742
-size 579
+#include "il2cpp-config.h"
+#include "os/Path.h"
+#include <string>
+
+#if IL2CPP_USE_GENERIC_ENVIRONMENT
+#include "os/Path.h"
+#include <string>
+
+namespace il2cpp
+{
+namespace os
+{
+    std::string Path::GetExecutablePath()
+    {
+        return std::string("<NotImplemented>");
+    }
+
+    std::string Path::GetApplicationFolder()
+    {
+        return std::string("<NotImplemented>");
+    }
+
+    std::string Path::GetTempPath()
+    {
+        return std::string("<NotImplemented>");
+    }
+
+    bool Path::IsAbsolute(const std::string& path)
+    {
+        return false;
+    }
+}
+}
+
+#endif

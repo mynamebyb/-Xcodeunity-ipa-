@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:53bfd0dde7dac40e53cdf9fecda81e1e9bff0ae11732d9ebd9b881dbc35e4633
-size 368
+#pragma once
+
+namespace il2cpp
+{
+namespace os
+{
+namespace Image
+{
+    void Initialize();
+    void* GetImageBase();
+#if IL2CPP_ENABLE_NATIVE_INSTRUCTION_POINTER_EMISSION
+    char* GetImageUUID();
+    char* GetImageName();
+#endif
+    bool IsInManagedSection(void*ip);
+    bool ManagedSectionExists();
+    void SetManagedSectionStartAndEnd(void* start, void* end);
+}
+}
+}

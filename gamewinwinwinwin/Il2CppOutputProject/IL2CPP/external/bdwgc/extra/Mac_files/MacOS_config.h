@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c3e33df5852013338002308f0eb340ea66da98317c4dc5b8e5907fa6e3b8ef71
-size 796
+/*
+        MacOS_config.h
+
+        Configuration flags for Macintosh development systems.
+
+        <Revision History>
+
+        11/16/95  pcb  Updated compilation flags to reflect latest 4.6 Makefile.
+
+        by Patrick C. Beard.
+ */
+/* Boehm, November 17, 1995 12:10 pm PST */
+
+#ifdef __MWERKS__
+/* for CodeWarrior Pro with Metrowerks Standard Library (MSL). */
+/* #define MSL_USE_PRECOMPILED_HEADERS 0 */
+#include <ansi_prefix.mac.h>
+#endif /* __MWERKS__ */
+
+/* these are defined again in gc_priv.h. */
+#undef TRUE
+#undef FALSE
+
+#define ALL_INTERIOR_POINTERS   /* follows interior pointers. */
+/* #define DONT_ADD_BYTE_AT_END */    /* no padding. */
+/* #define SMALL_CONFIG */           /* whether to use a smaller heap. */
+#define USE_TEMPORARY_MEMORY    /* use Macintosh temporary memory. */

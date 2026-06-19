@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c2357c0c309187d3301241e6b2c774bab51dceea6b80c5a3ddfd3aa75379b3ef
-size 206
+/**
+ * \file
+ */
+
+#ifndef __MONO_URI_H
+#define __MONO_URI_H
+#include <glib.h>
+#include <mono/utils/mono-publib.h>
+
+MONO_API gchar * mono_escape_uri_string (const gchar *string);
+
+#endif /* __MONO_URI_H */
+

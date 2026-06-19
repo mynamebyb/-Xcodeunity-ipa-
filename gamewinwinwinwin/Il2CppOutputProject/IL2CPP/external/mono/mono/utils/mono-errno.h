@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:18ceb412c30ddca5385056dda05284a2d6472b01956240be20317c9e3bcbcc26
-size 350
+/**
+ * \file
+ * Access the native error code
+ *
+ * Author:
+ *   Alexander Kyte (alkyte@microsoft.com)
+ *
+ * (C) 2018 Microsoft, Inc.
+ *
+ */
+
+#ifndef __MONO_ERRNO_H__
+#define __MONO_ERRNO_H__
+
+#include <errno.h>
+
+// Enough indirection to do something else here, or log
+inline static void
+mono_set_errno (int errno_val)
+{
+	errno = errno_val;
+}
+
+#endif

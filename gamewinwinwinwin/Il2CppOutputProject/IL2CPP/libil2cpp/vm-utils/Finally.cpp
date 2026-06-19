@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b13ad53ee1ac05dff25961783693d7223dca450825e620a9c7dad962e1767384
-size 266
+#include "il2cpp-config.h"
+#include "Finally.h"
+#include "vm/Exception.h"
+
+NORETURN void il2cpp::utils::RethrowException(Il2CppException* exception)
+{
+#if !RUNTIME_TINY
+    vm::Exception::Rethrow(exception);
+#else
+    tiny::vm::Exception::Raise(exception);
+#endif
+}

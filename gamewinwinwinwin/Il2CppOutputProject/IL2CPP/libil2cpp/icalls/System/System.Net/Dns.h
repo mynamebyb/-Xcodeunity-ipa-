@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f7b1ee636191c732d395604281a4d26c83a0676df018ea0f6c52627232448a33
-size 741
+#pragma once
+
+#include <stdint.h>
+#include "il2cpp-config.h"
+
+struct Il2CppArray;
+struct Il2CppString;
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace System
+{
+namespace System
+{
+namespace Net
+{
+    class LIBIL2CPP_CODEGEN_API Dns
+    {
+    public:
+        static bool GetHostByAddr_icall(Il2CppString* addr, Il2CppString** h_name, Il2CppArray** h_aliases, Il2CppArray** h_addr_list, int32_t hint);
+        static bool GetHostByName_icall(Il2CppString* host, Il2CppString** h_name, Il2CppArray** h_aliases, Il2CppArray** h_addr_list, int32_t hint);
+        static bool GetHostName_icall(Il2CppString** h_name);
+    };
+} /* namespace Net */
+} /* namespace System */
+} /* namespace System */
+} /* namespace icalls */
+} /* namespace il2cpp */

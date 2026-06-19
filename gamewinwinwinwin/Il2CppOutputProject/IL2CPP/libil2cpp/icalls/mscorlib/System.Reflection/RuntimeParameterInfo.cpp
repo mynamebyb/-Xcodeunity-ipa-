@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:77034ff1938af89478b975452ee811c7a064ad6e25b7e5a225fea8f4bced2df8
-size 753
+#include "il2cpp-config.h"
+#include "RuntimeParameterInfo.h"
+#include "vm/Exception.h"
+#include "vm/Reflection.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+namespace Reflection
+{
+    int32_t RuntimeParameterInfo::GetMetadataToken(Il2CppObject* thisPtr)
+    {
+        return vm::Reflection::GetMetadataToken(thisPtr);
+    }
+
+    Il2CppArray* RuntimeParameterInfo::GetTypeModifiers(Il2CppObject* type, Il2CppObject* member, int32_t position, bool optional)
+    {
+        NOT_SUPPORTED_IL2CPP(RuntimeParameterInfo::GetTypeModifiers, "This icall is not supported by il2cpp.");
+        return NULL;
+    }
+} // namespace Reflection
+} // namespace System
+} // namespace mscorlib
+} // namespace icalls
+} // namespace il2cpp

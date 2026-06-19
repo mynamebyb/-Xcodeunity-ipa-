@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:65914b2b4e235b260f2f783a26f43b54adae94dba871a1b00fdd5933e2eb07c9
-size 474
+#include "il2cpp-config.h"
+
+#include "icalls/System/System.IO/FileSystemWatcher.h"
+#include "os/FileSystemWatcher.h"
+#include "vm/Exception.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace System
+{
+namespace System
+{
+namespace IO
+{
+    int32_t FileSystemWatcher::InternalSupportsFSW()
+    {
+        return os::FileSystemWatcher::IsSupported();
+    }
+} /* namespace IO */
+} /* namespace System */
+} /* namespace System */
+} /* namespace icalls */
+} /* namespace il2cpp */

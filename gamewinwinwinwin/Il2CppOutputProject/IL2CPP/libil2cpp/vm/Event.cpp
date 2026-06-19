@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1c2ea97c5b149a97986f30950583cd8b79f24ced72ac7b057a7d3483c0847172
-size 241
+#include "vm/Event.h"
+#include "il2cpp-class-internals.h"
+
+namespace il2cpp
+{
+namespace vm
+{
+    uint32_t Event::GetToken(const EventInfo *eventInfo)
+    {
+        return eventInfo->token;
+    }
+} /* namespace vm */
+} /* namespace il2cpp */

@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8fe61197dccf7bc4788a0e5b463b0c8031e259f50e687d3b1ed6a10938c4ee2c
-size 793
+#include "il2cpp-config.h"
+#include "il2cpp-object-internals.h"
+#include "il2cpp-class-internals.h"
+#include "icalls/mscorlib/System/Object.h"
+#include "vm/Object.h"
+#include "vm/Reflection.h"
+#include "vm/Exception.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+    int32_t Object::InternalGetHashCode(Il2CppObject* obj)
+    {
+        return il2cpp::vm::Object::GetHash(obj);
+    }
+
+    Il2CppObject* Object::MemberwiseClone(Il2CppObject* obj)
+    {
+        return il2cpp::vm::Object::Clone(obj);
+    }
+
+    Il2CppReflectionType* Object::GetType(Il2CppObject* obj)
+    {
+        return il2cpp::vm::Reflection::GetTypeObject(&obj->klass->byval_arg);
+    }
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

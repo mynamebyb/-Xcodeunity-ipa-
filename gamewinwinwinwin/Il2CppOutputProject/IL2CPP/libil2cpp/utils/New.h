@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:65f030f430ff5c2136a7ac7b8ca520c2582ddf76517d738e00c2f5a7d86d99a2
-size 805
+#pragma once
+
+#include "il2cpp-config.h"
+
+#if IL2CPP_TARGET_WINDOWS || IL2CPP_TARGET_XBOXONE
+#include <malloc.h>
+#else
+#include <stdlib.h>
+#endif
+#include <new>
+
+inline void* operator new(size_t size, int alignment)
+{
+    void* result = NULL;
+    #if IL2CPP_TARGET_WINDOWS || IL2CPP_TARGET_XBOXONE
+    result = _aligned_malloc(size, alignment);
+    #elif IL2CPP_TARGET_ANDROID || IL2CPP_TARGET_PSP2
+    result = memalign(alignment, size);
+    #else
+    if (posix_memalign(&result, size, alignment))
+        result = NULL;
+    #endif
+    if (!result)
+        throw std::bad_alloc();
+    return result;
+}
+
+#if IL2CPP_TARGET_WINDOWS || IL2CPP_TARGET_XBOXONE // Visual C++ warns if new is overridden but delete is not.
+inline void operator delete(void* ptr, int alignment) throw ()
+{
+    free(ptr);
+}
+
+#endif

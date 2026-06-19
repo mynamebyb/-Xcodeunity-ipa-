@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4d14db131f192fe5fe9b2a3646bb2c311959a0dfcd65679b0b737e21f301de16
-size 539
+/**
+ * \file
+ */
+
+#ifndef _MONO_UTILS_RAND_H_
+#define _MONO_UTILS_RAND_H_
+
+#include <glib.h>
+
+#include "mono-compiler.h"
+#include "mono-error.h"
+
+gboolean
+mono_rand_open (void);
+
+gpointer
+mono_rand_init (const guchar *seed, gssize seed_size);
+
+gboolean
+mono_rand_try_get_bytes (gpointer *handle, guchar *buffer, gssize buffer_size, MonoError *error);
+
+gboolean
+mono_rand_try_get_uint32 (gpointer *handle, guint32 *val, guint32 min, guint32 max, MonoError *error);
+
+void
+mono_rand_close (gpointer handle);
+
+#endif /* _MONO_UTILS_RAND_H_ */

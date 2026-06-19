@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:075205e90513120f353f130ac74748999a5eb56ce0de4094162ec0c5815704dd
-size 479
+#include "il2cpp-config.h"
+
+
+#if !IL2CPP_TARGET_WINDOWS
+
+#include "os/LibraryLoader.h"
+#include "utils/StringUtils.h"
+
+namespace il2cpp
+{
+namespace os
+{
+    bool LibraryLoader::EntryNameMatches(const il2cpp::utils::StringView<char>& hardcodedEntryPoint, const il2cpp::utils::StringView<char>& entryPoint)
+    {
+        return hardcodedEntryPoint.Length() == entryPoint.Length() && strncmp(hardcodedEntryPoint.Str(), entryPoint.Str(), entryPoint.Length()) == 0;
+    }
+}
+}
+
+#endif

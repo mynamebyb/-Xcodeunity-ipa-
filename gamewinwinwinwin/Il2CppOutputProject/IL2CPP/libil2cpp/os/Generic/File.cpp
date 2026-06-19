@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f991090af9cb6627e92486a7d54f7eaf989e6a370ead08719a06e68e57ed0ce6
-size 282
+#include "il2cpp-config.h"
+
+#if IL2CPP_USE_GENERIC_FILE
+#include "os/File.h"
+
+namespace il2cpp
+{
+namespace os
+{
+    bool File::Truncate(FileHandle* handle, int *error)
+    {
+        NO_UNUSED_WARNING(handle);
+        NO_UNUSED_WARNING(error);
+        return false;
+    }
+}
+}
+#endif

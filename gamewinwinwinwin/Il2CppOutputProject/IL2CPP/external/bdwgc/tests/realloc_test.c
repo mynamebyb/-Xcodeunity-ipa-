@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:28a5fb49e2550c0d2f46e72268d601a61f4807335bc05794f94b2ccd38696e8c
-size 680
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "gc.h"
+
+#define COUNT 10000000
+
+int main(void) {
+  int i;
+  unsigned long last_heap_size = 0;
+
+  GC_INIT();
+
+  for (i = 0; i < COUNT; i++) {
+    int **p = GC_NEW(int *);
+    int *q = (int*)GC_MALLOC_ATOMIC(sizeof(int));
+
+    if (p == 0 || *p != 0) {
+      fprintf(stderr, "GC_malloc returned garbage (or NULL)\n");
+      exit(1);
+    }
+
+    *p = (int*)GC_REALLOC(q, 2 * sizeof(int));
+
+    if (i % 10 == 0) {
+      unsigned long heap_size = (unsigned long)GC_get_heap_size();
+      if (heap_size != last_heap_size) {
+        printf("Heap size: %lu\n", heap_size);
+        last_heap_size = heap_size;
+      }
+    }
+  }
+  return 0;
+}

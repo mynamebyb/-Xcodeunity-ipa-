@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4e60ce7d71282a0cf7c15a59187fc5fe89ef7235eb2c18be6e3ade9db2b8d20e
-size 642
+#pragma once
+
+#include <stdint.h>
+#include "il2cpp-config.h"
+#include "il2cpp-object-internals.h"
+
+struct Il2CppArray;
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace System
+{
+    class LIBIL2CPP_CODEGEN_API Buffer
+    {
+    public:
+        static bool InternalBlockCopy(Il2CppArray* src, int32_t srcOffsetBytes, Il2CppArray* dst, int32_t dstOffsetBytes, int32_t byteCount);
+        static int32_t _ByteLength(Il2CppArray* array);
+        static void InternalMemcpy(uint8_t* dest, uint8_t* src, int32_t count);
+    };
+} /* namespace System */
+} /* namespace mscorlib */
+} /* namespace icalls */
+} /* namespace il2cpp */

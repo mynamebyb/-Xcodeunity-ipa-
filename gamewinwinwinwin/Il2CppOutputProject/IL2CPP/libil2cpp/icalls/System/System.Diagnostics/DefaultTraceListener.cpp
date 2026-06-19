@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b3210a594ef53fd2295a76e22c1686467e92eb8c80bec36b8a59d5359f6103c9
-size 610
+#include "il2cpp-config.h"
+
+#include "icalls/System/System.Diagnostics/DefaultTraceListener.h"
+#include "os/Debug.h"
+#include "utils/StringUtils.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace System
+{
+namespace System
+{
+namespace Diagnostics
+{
+    void DefaultTraceListener::WriteWindowsDebugString(Il2CppChar* message)
+    {
+        DECLARE_IL2CPP_CHAR_PTR_AS_STRING_VIEW_OF_NATIVE_CHARS(messageNative, message);
+        il2cpp::os::Debug::WriteString(messageNative);
+    }
+} /* namespace Diagnostics */
+} /* namespace System */
+} /* namespace System */
+} /* namespace icalls */
+} /* namespace il2cpp */

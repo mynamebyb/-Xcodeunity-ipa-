@@ -1,3 +1,42 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:283dfb4373f9893be5747a99d3662a7c3729c711b302ab354a89bade0fd14349
-size 792
+/**
+ * \file
+ */
+
+#ifndef _MONO_METADATA_THREADPOOL_WORKER_H
+#define _MONO_METADATA_THREADPOOL_WORKER_H
+
+#include <config.h>
+#include <glib.h>
+
+#ifndef ENABLE_NETCORE
+
+typedef void (*MonoThreadPoolWorkerCallback)(void);
+
+void
+mono_threadpool_worker_init (MonoThreadPoolWorkerCallback callback);
+
+void
+mono_threadpool_worker_cleanup (void);
+
+void
+mono_threadpool_worker_request (void);
+
+gboolean
+mono_threadpool_worker_notify_completed (void);
+
+gint32
+mono_threadpool_worker_get_min (void);
+gboolean
+mono_threadpool_worker_set_min (gint32 value);
+
+gint32
+mono_threadpool_worker_get_max (void);
+gboolean
+mono_threadpool_worker_set_max (gint32 value);
+
+void
+mono_threadpool_worker_set_suspended (gboolean suspended);
+
+#endif /* ENABLE_NETCORE */
+
+#endif /* _MONO_METADATA_THREADPOOL_WORKER_H */

@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:32be48255b17f04c4917d2b9616554f20b7a878d04124c8f6e8479d6faa33967
-size 408
+/*
+ * Test that overwrite error detection works reasonably.
+ */
+#define GC_DEBUG
+#include "gc.h"
+
+#include <stdio.h>
+
+#define COUNT 7000
+#define SIZE  40
+
+char * A[COUNT];
+
+int main(void)
+{
+  int i;
+  char *p;
+
+  GC_INIT();
+
+  for (i = 0; i < COUNT; ++i) {
+     A[i] = p = (char*)GC_MALLOC(SIZE);
+
+     if (i%3000 == 0) GC_gcollect();
+     if (i%5678 == 0 && p != 0) p[SIZE + i/2000] = 42;
+  }
+  return 0;
+}

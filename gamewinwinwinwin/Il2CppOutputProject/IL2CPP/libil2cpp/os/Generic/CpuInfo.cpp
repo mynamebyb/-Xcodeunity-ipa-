@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7994bf468435ef9fbd7aa212891f3d016e655648f9658f9354dbe8faa7352599
-size 292
+#include "os/c-api/il2cpp-config-platforms.h"
+#if !IL2CPP_PLATFORM_SUPPORTS_CPU_INFO
+
+#include "os/CpuInfo.h"
+
+namespace il2cpp
+{
+namespace os
+{
+    void* CpuInfo::Create()
+    {
+        return NULL;
+    }
+
+    int32_t CpuInfo::Usage(void* previous)
+    {
+        return 0;
+    }
+}
+}
+
+#endif

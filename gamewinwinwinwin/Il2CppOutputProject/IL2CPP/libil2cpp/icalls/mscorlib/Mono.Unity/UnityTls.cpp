@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:53cd01e36e79149292121cd7d08b3ec361419eee33a4d9b76aad87f7389df03b
-size 326
+#include "il2cpp-config.h"
+#include "icalls/mscorlib/Mono.Unity/UnityTls.h"
+#include "vm/Runtime.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace mscorlib
+{
+namespace Mono
+{
+namespace Unity
+{
+    const void* UnityTls::GetUnityTlsInterface()
+    {
+        return il2cpp::vm::Runtime::GetUnityTlsInterface();
+    }
+}
+}
+}
+}
+}

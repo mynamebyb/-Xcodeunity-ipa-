@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:608fdb100e80f3e41919638e61ad1ef51dff28c13a34899a4c23f6fb88e64b40
-size 454
+#pragma once
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace System
+{
+namespace System
+{
+namespace Net
+{
+namespace NetworkInformation
+{
+    class LIBIL2CPP_CODEGEN_API LinuxNetworkInterface
+    {
+    public:
+        static bool unitydroid_get_network_interface_up_state(Il2CppString* ifName, bool* isUp);
+    };
+} // namespace NetworkInformation
+} // namespace Net
+} // namespace System
+} // namespace System
+} // namespace icalls
+} // namespace il2cpp

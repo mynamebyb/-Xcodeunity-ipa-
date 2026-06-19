@@ -1,3 +1,33 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e72f59f9fff53893ab920142c9a7e7d7e7c38db63f3ed1f3edb56eb24ea95046
-size 657
+/**
+ * \file
+ */
+
+#ifndef _MONO_METADATA_W32MUTEX_H_
+#define _MONO_METADATA_W32MUTEX_H_
+
+#include <config.h>
+#include <glib.h>
+
+#include "object.h"
+#include "object-internals.h"
+#include "w32handle-namespace.h"
+#include <mono/metadata/icalls.h>
+
+void
+mono_w32mutex_init (void);
+
+ICALL_EXPORT
+MonoBoolean
+ves_icall_System_Threading_Mutex_ReleaseMutex_internal (gpointer handle);
+
+typedef struct MonoW32HandleNamedMutex MonoW32HandleNamedMutex;
+
+MonoW32HandleNamespace*
+mono_w32mutex_get_namespace (MonoW32HandleNamedMutex *mutex);
+
+#ifndef HOST_WIN32
+void
+mono_w32mutex_abandon (MonoInternalThread *internal);
+#endif
+
+#endif /* _MONO_METADATA_W32MUTEX_H_ */

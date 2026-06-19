@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:daeb47212e997031ec953551bc1e513eb66cf5334b71d7ae992c7aa8676e42dd
-size 325
+#include "il2cpp-config.h"
+
+#if IL2CPP_TARGET_ANDROID
+
+#include "utils/StringUtils.h"
+
+#include <jni.h>
+#include <android/log.h>
+
+namespace il2cpp
+{
+namespace os
+{
+namespace ConsoleExtension
+{
+    void Write(const char* buffer)
+    {
+        __android_log_print(ANDROID_LOG_INFO, "IL2CPP", "%s", buffer);
+    }
+}
+}
+}
+
+#endif

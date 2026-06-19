@@ -1,3 +1,33 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7098073bc98306358f88320ba1d87f53269d9299232e2ad46c955ad4c8eb0d7c
-size 1011
+#pragma once
+
+#include "il2cpp-object-internals.h"
+
+namespace il2cpp
+{
+namespace icalls
+{
+namespace System
+{
+namespace System
+{
+namespace Diagnostics
+{
+    struct ProcInfo;
+
+    class LIBIL2CPP_CODEGEN_API Process
+    {
+    public:
+        static bool CreateProcess_internal(Il2CppObject* startInfo, intptr_t _stdin, intptr_t _stdout, intptr_t _stderr, ProcInfo* procInfo);
+        static bool ShellExecuteEx_internal(Il2CppObject* startInfo, ProcInfo* procInfo);
+        static Il2CppArray* GetModules_icall(Il2CppObject* thisPtr, intptr_t handle);
+        static Il2CppArray* GetProcesses_internal();
+        static int64_t GetProcessData(int32_t pid, int32_t data_type, int32_t* error);
+        static intptr_t GetProcess_internal(int32_t pid);
+        static Il2CppString* ProcessName_icall(intptr_t handle);
+        static intptr_t MainWindowHandle_icall(int32_t pid);
+    };
+} /* namespace Diagnostics */
+} /* namespace System */
+} /* namespace System */
+} /* namespace icalls */
+} /* namespace il2cpp */

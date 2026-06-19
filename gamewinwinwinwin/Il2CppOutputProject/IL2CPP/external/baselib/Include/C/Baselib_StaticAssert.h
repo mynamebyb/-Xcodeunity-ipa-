@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a83e68f99e3a111b845976b74780c45f9561e0eb474d957b726e2364b03b4b50
-size 294
+#pragma once
+
+// C99 compatible static_assert
+// Use static_assert in all C++ code directly.
+#ifdef __cplusplus
+    #define BASELIB_STATIC_ASSERT(EXPR_, MSG_)      static_assert(EXPR_, MSG_)
+#else
+    #define BASELIB_STATIC_ASSERT(EXPR_, MSG_)      COMPILER_C_STATIC_ASSERT(EXPR_, MSG_)
+#endif

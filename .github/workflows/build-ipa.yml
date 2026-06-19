@@ -43,12 +43,8 @@ jobs:
           LIB_PATH="$(pwd)/Libraries"
           BUILD_DIR="$(pwd)/build"
           
-          # 后台循环：不断删除 EagerLinkingTBDs 里的 UnityFramework，防止自链接
-          (while true; do
-            rm -rf "$BUILD_DIR/EagerLinkingTBDs/Release-iphoneos/UnityFramework.framework"
-            sleep 0.5
-          done) &
-          KILLER_PID=$!
+          # 构建前删一次 EagerLinkingTBDs 里的自己，防止自链接（只删一次，不循环）
+          rm -rf "$BUILD_DIR/EagerLinkingTBDs/Release-iphoneos/UnityFramework.framework"
           
           xcodebuild \
             -project Unity-iPhone.xcodeproj \
@@ -60,7 +56,6 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             ONLY_ACTIVE_ARCH=NO \
             ENABLE_BITCODE=NO \
-            DEFINES_MODULE=NO \
             LIBRARY_SEARCH_PATHS="$LIB_PATH" \
             OTHER_LDFLAGS="\
               -force_load $LIB_PATH/libil2cpp.a \
@@ -70,9 +65,6 @@ jobs:
               -lsqlite3 \
               -liconv" \
             build
-          
-          # 停止后台删除进程
-          kill $KILLER_PID 2>/dev/null || true
 
       - name: Step 3 - Build main app
         run: |

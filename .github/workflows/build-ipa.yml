@@ -26,13 +26,14 @@ jobs:
         run: |
           cd gamewinwinwinwin
           LIB_PATH="$(pwd)/Libraries"
+          BUILD_PRODUCTS_PATH="../build/DerivedData/Build/Products/Release-iphoneos"
           
           # 读取原有的 OTHER_LDFLAGS
           BUILD_SETTINGS=$(xcodebuild -project Unity-iPhone.xcodeproj -scheme Unity-iPhone -configuration Release -showBuildSettings 2>/dev/null)
           ORIGINAL_LDFLAGS=$(echo "$BUILD_SETTINGS" | grep -m1 "OTHER_LDFLAGS" | sed 's/^[[:space:]]*OTHER_LDFLAGS = //')
           echo "原有参数: $ORIGINAL_LDFLAGS"
           
-          # 追加所有需要的框架和库
+          # 追加所有需要的框架和库，加上 UnityFramework
           NEW_LDFLAGS="$ORIGINAL_LDFLAGS \
             -force_load $LIB_PATH/libil2cpp.a \
             -force_load $LIB_PATH/libiPhone-lib.a \
@@ -62,6 +63,8 @@ jobs:
             -framework OpenAL \
             -framework MobileCoreServices \
             -framework WebKit \
+            -framework UnityFramework \
+            -F$BUILD_PRODUCTS_PATH \
             -lz \
             -liconv \
             -lc++ \
@@ -85,6 +88,7 @@ jobs:
             ONLY_ACTIVE_ARCH=NO \
             ENABLE_BITCODE=NO \
             LIBRARY_SEARCH_PATHS="$LIB_PATH $(inherited)" \
+            FRAMEWORK_SEARCH_PATHS="$BUILD_PRODUCTS_PATH $(inherited)" \
             OTHER_LDFLAGS="$NEW_LDFLAGS" \
             build
 

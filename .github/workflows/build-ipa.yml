@@ -27,19 +27,45 @@ jobs:
           cd gamewinwinwinwin
           LIB_PATH="$(pwd)/Libraries"
           
-          # 先读取原有的 OTHER_LDFLAGS
+          # 读取原有的 OTHER_LDFLAGS
           BUILD_SETTINGS=$(xcodebuild -project Unity-iPhone.xcodeproj -scheme Unity-iPhone -configuration Release -showBuildSettings 2>/dev/null)
           ORIGINAL_LDFLAGS=$(echo "$BUILD_SETTINGS" | grep -m1 "OTHER_LDFLAGS" | sed 's/^[[:space:]]*OTHER_LDFLAGS = //')
           echo "原有参数: $ORIGINAL_LDFLAGS"
           
-          # 追加 force_load 和系统库（修正了 -lz 拼写）
+          # 追加所有需要的框架和库
           NEW_LDFLAGS="$ORIGINAL_LDFLAGS \
             -force_load $LIB_PATH/libil2cpp.a \
             -force_load $LIB_PATH/libiPhone-lib.a \
             -force_load $LIB_PATH/baselib.a \
+            -framework UIKit \
+            -framework Foundation \
+            -framework CoreGraphics \
+            -framework QuartzCore \
+            -framework Metal \
+            -framework MetalKit \
+            -framework OpenGLES \
+            -framework AudioToolbox \
+            -framework AVFoundation \
+            -framework GameKit \
+            -framework StoreKit \
+            -framework SystemConfiguration \
+            -framework CoreTelephony \
+            -framework CoreLocation \
+            -framework CFNetwork \
+            -framework Security \
+            -framework CoreText \
+            -framework CoreMedia \
+            -framework CoreVideo \
+            -framework GameController \
+            -framework AVKit \
+            -framework MediaToolbox \
+            -framework OpenAL \
+            -framework MobileCoreServices \
+            -framework WebKit \
             -lz \
             -liconv \
-            -lc++"
+            -lc++ \
+            -lsqlite3"
           
           echo "新参数: $NEW_LDFLAGS"
           

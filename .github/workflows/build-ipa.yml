@@ -43,11 +43,13 @@ jobs:
           LIB_PATH="$(pwd)/Libraries"
           BUILD_DIR="$(pwd)/build"
           
-          # 构建前先删掉 EagerLinkingTBDs 里的自己，防止自链接
-          rm -rf "$BUILD_DIR/EagerLinkingTBDs/Release-iphoneos/UnityFramework.framework"
+          # 后台循环：不断删除 EagerLinkingTBDs 里的 UnityFramework，防止自链接
+          (while true; do
+            rm -rf "$BUILD_DIR/EagerLinkingTBDs/Release-iphoneos/UnityFramework.framework"
+            sleep 0.5
+          done) &
+          KILLER_PID=$!
           
-          # 完全手动配置 OTHER_LDFLAGS，不继承，确保没有 -framework UnityFramework
-          # 只加 force_load 和基础系统库，其他框架用项目原有的
           xcodebuild \
             -project Unity-iPhone.xcodeproj \
             -target UnityFramework \
@@ -58,6 +60,7 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             ONLY_ACTIVE_ARCH=NO \
             ENABLE_BITCODE=NO \
+            DEFINES_MODULE=NO \
             LIBRARY_SEARCH_PATHS="$LIB_PATH" \
             OTHER_LDFLAGS="\
               -force_load $LIB_PATH/libil2cpp.a \
@@ -67,6 +70,9 @@ jobs:
               -lsqlite3 \
               -liconv" \
             build
+          
+          # 停止后台删除进程
+          kill $KILLER_PID 2>/dev/null || true
 
       - name: Step 3 - Build main app
         run: |
@@ -118,7 +124,6 @@ jobs:
           mkdir -p build/ipa-tmp/Payload
           cp -R "$APP_PATH" build/ipa-tmp/Payload/
           
-          # 清理签名相关
           find "build/ipa-tmp/Payload/$APP_NAME" -name "_CodeSignature" -type d -exec rm -rf {} + 2>/dev/null || true
           find "build/ipa-tmp/Payload/$APP_NAME" -name "embedded.mobileprovision" -delete 2>/dev/null || true
           find "build/ipa-tmp/Payload/$APP_NAME" -name "CodeResources" -delete 2>/dev/null || true
